@@ -1,3 +1,5 @@
+.DS_Store
+
 # Compiled class file
 *.class
 
@@ -31,11 +33,11 @@ hs_err_pid*
 .gradle
 build
 .gitattributes
-build.gradle.kts
+build.gradle
 gradle/
 gradlew
 gradlew.bat
-settings.gradle.kts
+settings.gradle
 src/main/
 src/test/
 gradle.properties
