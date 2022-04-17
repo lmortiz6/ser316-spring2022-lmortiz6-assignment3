@@ -38,3 +38,4 @@ gradlew.bat
 settings.gradle.kts
 src/main/
 src/test/
+gradle.properties
