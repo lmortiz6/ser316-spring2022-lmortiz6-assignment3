@@ -33,9 +33,6 @@ hs_err_pid*
 .gradle
 build
 .gitattributes
-build.gradle
-gradlew
-gradlew.bat
 settings.gradle
 src/main/
 src/test/
