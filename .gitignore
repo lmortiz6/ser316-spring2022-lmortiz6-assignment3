@@ -23,6 +23,18 @@
 hs_err_pid*
 /bin/
 
-#Eclipse
+# Eclipse
 .classpath
 .project
+
+# Gradle
+.gradle
+build
+.gitattributes
+build.gradle.kts
+gradle/
+gradlew
+gradlew.bat
+settings.gradle.kts
+src/main/
+src/test/
