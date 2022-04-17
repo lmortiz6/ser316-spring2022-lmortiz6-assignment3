@@ -34,7 +34,6 @@ hs_err_pid*
 build
 .gitattributes
 build.gradle
-gradle/
 gradlew
 gradlew.bat
 settings.gradle
