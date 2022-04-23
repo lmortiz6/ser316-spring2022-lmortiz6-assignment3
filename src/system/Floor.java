@@ -43,6 +43,25 @@ public class Floor {
 		leftSide--;
 		bottom++;
 	}
+	public GameObject getObject(int x, int y) {
+		for (GameObject obj : entitiesList) {
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
+				return obj;
+		}
+		for (GameObject obj : itemsList) {
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
+				return obj;
+		}
+		for (GameObject obj : furnitureList) {
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
+				return obj;
+		}
+		for (GameObject obj : wallsList) {
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
+				return obj;
+		}
+		return null;
+	}
 	
 	public void addWall(GameObject obj) {
 		wallsList.add(obj);
@@ -50,7 +69,7 @@ public class Floor {
 	
 	public GameObject getWall(int x, int y) {
 		for (GameObject obj : wallsList) {
-			if (obj.getPosition().x == x && obj.getPosition().y == y)
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
 				return obj;
 		}
 		return null;
@@ -62,7 +81,7 @@ public class Floor {
 	
 	public GameObject getFurniture(int x, int y) {
 		for (GameObject obj : furnitureList) {
-			if (obj.getPosition().x == x && obj.getPosition().y == y)
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
 				return obj;
 		}
 		return null;
@@ -74,7 +93,7 @@ public class Floor {
 
 	public GameObject getItem(int x, int y) {
 		for (GameObject obj : itemsList) {
-			if (obj.getPosition().x == x && obj.getPosition().y == y)
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
 				return obj;
 		}
 		return null;
@@ -86,7 +105,7 @@ public class Floor {
 
 	public GameObject getEntity(int x, int y) {
 		for (GameObject obj : entitiesList) {
-			if (obj.getPosition().x == x && obj.getPosition().y == y)
+			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
 				return obj;
 		}
 		return null;
@@ -103,19 +122,19 @@ public class Floor {
 			targetY = (int)room.getPosition().getY() * Room.ROOM_HEIGHT;
 			for (int i = 0; i < Room.ROOM_WIDTH + 1; i++) {
 				targetX = (int)room.getPosition().getX() * Room.ROOM_WIDTH + i;
-				wallsList.add(new Wall(targetX, targetY));
+				wallsList.add(new Wall(targetX, targetY, this));
 			}
 			for (int i = 0; i < Room.ROOM_HEIGHT - 1; i++) {
 				targetX = (int)room.getPosition().getX() * Room.ROOM_WIDTH;
 				targetY = (int)room.getPosition().getY() * Room.ROOM_HEIGHT + 1 + i;
-				wallsList.add(new Wall(targetX, targetY));
+				wallsList.add(new Wall(targetX, targetY, this));
 				targetX += Room.ROOM_WIDTH;
-				wallsList.add(new Wall(targetX, targetY));
+				wallsList.add(new Wall(targetX, targetY, this));
 			}
 			targetY = (int)room.getPosition().getY() * Room.ROOM_HEIGHT + Room.ROOM_HEIGHT;
 			for (int i = 0; i < Room.ROOM_WIDTH + 1; i++) {
 				targetX = (int)room.getPosition().getX() * Room.ROOM_WIDTH + i;
-				wallsList.add(new Wall(targetX, targetY));
+				wallsList.add(new Wall(targetX, targetY, this));
 			}
 		}
 	}
