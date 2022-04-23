@@ -2,9 +2,9 @@ package testing;
 
 import org.junit.*;
 
-import object.Player;
-import system.Floor;
-import system.FloorGenerator;
+import main.java.object.Player;
+import main.java.system.Floor;
+import main.java.system.FloorGenerator;
 
 import static org.junit.Assert.*;
 
