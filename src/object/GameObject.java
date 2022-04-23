@@ -12,6 +12,7 @@ public class GameObject {
 	public GameObject(int x, int y, Floor floor) {
 		position = new Point(x, y);
 		ascii = '·';
+		this.floor = floor;
 	}
 	
 	public char getAscii() {

@@ -7,6 +7,9 @@ import system.Floor;
 
 public class Entity extends GameObject{
 	
+	protected String name;
+	protected boolean tookTurn;
+	
 	protected int hp, hpMax; // hit points
 	protected int mp, mpMax; // magic points
 	protected int en, enMax; // energy
@@ -35,9 +38,13 @@ public class Entity extends GameObject{
 		useItems = new ArrayList<UseItem>();
 		skills = new ArrayList<Skill>();
 		relics = new ArrayList<Relic>();
+		tookTurn = false;
 	}
 	
-	public void setUp(int hpMax, int mpMax, int enMax, int givexp, int vig, int mnd, int end, int str, int lck, int arc, Item giveItem) {
+	public void setUp(String name, char ascii, int hpMax, int mpMax, int enMax, int givexp,
+						int vig, int mnd, int end, int str, int lck, int arc, Item giveItem) {
+		this.name = name;
+		this.ascii = ascii;
 		this.hpMax = hpMax;
 		this.hp = hpMax;
 		this.mpMax = mpMax;
@@ -74,8 +81,17 @@ public class Entity extends GameObject{
 	}
 
 	public void move(int x, int y) {
-		if (!(floor.getObject(x, y) instanceof Wall) && !(floor.getObject(x, y) instanceof Entity)) {
-			position.setLocation(x, y);
+		GameObject obj = floor.getObject(x, y);
+		if (obj instanceof Wall || obj instanceof Entity) {
+			return;
 		}
+		else {
+			position.setLocation(x, y);
+			//en -= 2;
+		}
+	}
+	
+	public void energize() {
+		en = enMax;
 	}
 }

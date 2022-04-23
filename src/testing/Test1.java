@@ -2,6 +2,7 @@ package testing;
 
 import org.junit.*;
 
+import object.Player;
 import system.Floor;
 import system.FloorGenerator;
 
@@ -27,8 +28,14 @@ public class Test1 {
     public void SampleTest() {
     	
     	Floor floor = fgen.generateFloor(0);
-    	
+    	Player player = new Player(floor.getLayout().getRoomList().get(0).getPositionAbs().x + 5, floor.getLayout().getRoomList().get(0).getPositionAbs().y + 4, floor);
+    	floor.addEntity(player);
     	floor.printFloorplan();
+    	
+    	for (int i = 0; i < 20; i++) {
+    		player.move("NORTH");
+    		floor.printFloorplan();
+    	}
     	
         assertEquals(1, 1);
     }
