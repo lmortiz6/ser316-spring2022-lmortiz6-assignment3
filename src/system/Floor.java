@@ -2,6 +2,9 @@ package system;
 
 import java.util.ArrayList;
 
+import object.GameObject;
+import object.Wall;
+
 public class Floor {
 	
 	public static int FLOOR_SIZE = 20;

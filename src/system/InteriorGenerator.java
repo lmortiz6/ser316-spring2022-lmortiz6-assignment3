@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import object.Empty;
+import object.Wall;
+
 public class InteriorGenerator {
 	
 	
@@ -39,7 +42,7 @@ public class InteriorGenerator {
 			for (int i = 1; i < Room.ROOM_HEIGHT; i++) {
 				for (int j = 1; j < Room.ROOM_WIDTH; j++) {
 					if (floor.getFurniture(j + room.getPositionAbs().x, i + room.getPositionAbs().y) == null) {
-						floor.addFurniture(new Empty(j + room.getPositionAbs().x, i + room.getPositionAbs().y));
+						floor.addFurniture(new Empty(j + room.getPositionAbs().x, i + room.getPositionAbs().y, floor));
 					}
 				}
 			}
@@ -64,7 +67,7 @@ public class InteriorGenerator {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 1; j < Room.ROOM_WIDTH; j++) {
 				if (j != 5) {
-					floor.addFurniture(new Wall(roomX+j, roomY+targetY));
+					floor.addFurniture(new Wall(roomX+j, roomY+targetY, floor));
 				}
 			}
 			targetY = Room.ROOM_HEIGHT - 1;
@@ -79,13 +82,13 @@ public class InteriorGenerator {
 		int targetX = 1;
 		int targetY = 1;
 		
-		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 		targetX = Room.ROOM_WIDTH - 1;
-		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 		targetY = Room.ROOM_HEIGHT - 1;
-		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 		targetX = 1;
-		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 		
 		//TODO spawn shopkeeper
 	}
@@ -122,13 +125,13 @@ public class InteriorGenerator {
 			targetX = Room.ROOM_WIDTH / 2;
 			for (int i = margin+1; i < Room.ROOM_HEIGHT - 1 - margin; i++) {
 				if (rng.nextInt(5) != 0) { // 80%
-					floor.addFurniture(new Wall(roomX+targetX, roomY+i));
+					floor.addFurniture(new Wall(roomX+targetX, roomY+i, floor));
 				}
 			}
 			targetY = Room.ROOM_HEIGHT / 2;
 			for (int i = margin+1; i < Room.ROOM_WIDTH - 1 - margin; i++) {
 				if (rng.nextInt(5) != 0) { // 80%
-					floor.addFurniture(new Wall(roomX+i, roomY+targetY));
+					floor.addFurniture(new Wall(roomX+i, roomY+targetY, floor));
 				}
 			}
 		}
@@ -136,13 +139,13 @@ public class InteriorGenerator {
 			// pillar pattern
 			targetX = margin+1;
 			targetY = margin+1;
-			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 			targetX = Room.ROOM_WIDTH - 1 - margin;
-			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 			targetY = Room.ROOM_HEIGHT - 1 - margin;
-			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 			targetX = margin + 1;
-			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 		}
 		// else add no walls 33%
 	}
