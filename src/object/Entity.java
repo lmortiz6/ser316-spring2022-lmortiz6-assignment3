@@ -10,7 +10,7 @@ public class Entity extends GameObject{
 	protected int hp, hpMax; // hit points
 	protected int mp, mpMax; // magic points
 	protected int en, enMax; // energy
-	protected int xp; // experience points
+	protected int xp, givexp;// experience points
 	protected int sp;  // skill points
 	protected int vig; // vigor
 	protected int mnd; // mind
@@ -24,6 +24,8 @@ public class Entity extends GameObject{
 	protected ArrayList<Skill> skills;
 	protected ArrayList<Relic> relics;
 	protected ArrayList<Effect> effects;
+	
+	protected Item giveItem;
 
 	public Entity(int x, int y, Floor floor) {
 		super(x, y, floor);
@@ -35,19 +37,21 @@ public class Entity extends GameObject{
 		relics = new ArrayList<Relic>();
 	}
 	
-	public void setUp(int hpMax, int mpMax, int enMax, int vig, int mnd, int end, int str, int lck, int arc) {
+	public void setUp(int hpMax, int mpMax, int enMax, int givexp, int vig, int mnd, int end, int str, int lck, int arc, Item giveItem) {
 		this.hpMax = hpMax;
 		this.hp = hpMax;
 		this.mpMax = mpMax;
 		this.mp = mpMax;
 		this.enMax = enMax;
 		this.en = enMax;
+		this.givexp = givexp;
 		this.vig = vig;
 		this.mnd = mnd;
 		this.end = end;
 		this.str = str;
 		this.lck = lck;
 		this.arc = arc;
+		this.giveItem = giveItem;
 	}
 	
 	public void move(String direction) {
