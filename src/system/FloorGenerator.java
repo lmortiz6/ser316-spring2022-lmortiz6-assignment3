@@ -10,11 +10,12 @@ public class FloorGenerator {
 
 	long seed;
 	Random rng;
-	RoomGenerator rgen = new RoomGenerator(seed);
+	InteriorGenerator igen;
 	
 	public FloorGenerator(long sd) {
 		seed = sd;
 		rng = new Random(seed);
+		igen = new InteriorGenerator(seed);
 	}
 	
 	public Floor generateFloor() {
@@ -28,6 +29,7 @@ public class FloorGenerator {
 		
 		// place starting room
 		Room room = new Room(coord.x, coord.y, ROOM_TYPE.START);
+		igen.generateInterior(room, 0);
 		layout.addRoom(room, coord.x, coord.y);
 		
 		// place main path
@@ -37,7 +39,7 @@ public class FloorGenerator {
 		// place extra rooms
 		placer.addExtra();
 		
-		//printLayout(layout);
+		printLayout(layout);
 		
 		return layout;
 	}
@@ -112,6 +114,7 @@ public class FloorGenerator {
 				followCompass();
 				
 				newRoom = new Room(newX, newY, ROOM_TYPE.NORMAL);
+				igen.generateInterior(newRoom, 0);
 				layout.addRoom(newRoom, newX, newY);
 				rooms.add(newRoom);
 			}
@@ -122,6 +125,7 @@ public class FloorGenerator {
 			followCompass();
 			
 			newRoom = new Room(newX, newY, ROOM_TYPE.END);
+			igen.generateInterior(newRoom, 0);
 			layout.addRoom(newRoom, newX, newY);
 		}
 		
@@ -141,6 +145,7 @@ public class FloorGenerator {
 					followCompass();
 					if (layout.getType(newX, newY) == ROOM_TYPE.NULL) {
 						newRoom = new Room(newX, newY, ROOM_TYPE.NORMAL);
+						igen.generateInterior(newRoom, 0);
 						layout.addRoom(newRoom, newX, newY);
 						rooms.add(newRoom);
 						foundPlace = true;
@@ -168,9 +173,11 @@ public class FloorGenerator {
 					if (layout.getType(newX, newY) == ROOM_TYPE.NULL) {
 						if (i != 1) {
 							newRoom = new Room(newX, newY, ROOM_TYPE.TREASURE);
+							igen.generateInterior(newRoom, 0);
 						}
 						else {
 							newRoom = new Room(newX, newY, ROOM_TYPE.SHOP);
+							igen.generateInterior(newRoom, 0);
 						}
 						layout.addRoom(newRoom, newX, newY);
 						foundPlace = true;

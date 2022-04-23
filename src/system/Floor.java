@@ -15,7 +15,7 @@ public class Floor {
 		layout = lout;
 		generateWalls();
 		makeDoors();
-		printWalls();
+		printFloor();
 	}
 	
 	private void generateWalls() {
@@ -78,11 +78,30 @@ public class Floor {
 		}
 	}
 	
-	private void printWalls() {
+	private void printFloor() {
+		GameObject[][] wholeFloor = new GameObject[walls.length][walls[0].length];
+		for (int i = 0; i < walls.length; i++) {
+			for (int j = 0; j < walls[0].length; j++) {
+				if (walls[i][j] != null) {
+					wholeFloor[i][j] = walls[i][j];
+				}
+			}
+		}
+		
+		for (Room room : layout.getRoomList()) {
+			int roomX = room.getPosition().x * Room.ROOM_WIDTH;
+			int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
+			for (int i = 0; i < Room.ROOM_HEIGHT - 1; i++) {
+				for (int j = 0; j < Room.ROOM_WIDTH - 1; j++) {
+					wholeFloor[roomX+1+j][roomY+1+i] = room.getObject(j, i);
+				}
+			}
+		}
+		
 		for (int i = 0; i < FLOOR_SIZE*Room.ROOM_HEIGHT; i++) {
 			for (int j = 0; j < FLOOR_SIZE*Room.ROOM_WIDTH; j++) {
-				if (walls[j][i] != null) {
-					System.out.print("X ");
+				if (wholeFloor[j][i] != null) {
+					System.out.print(wholeFloor[j][i].getAscii() + " ");
 				}else {
 					System.out.print("  ");
 				}
