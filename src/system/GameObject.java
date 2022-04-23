@@ -14,4 +14,8 @@ public class GameObject {
 	public char getAscii() {
 		return ascii;
 	}
+	
+	public Point getPosition() {
+		return position;
+	}
 }

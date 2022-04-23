@@ -18,26 +18,30 @@ public class FloorGenerator {
 		igen = new InteriorGenerator(seed);
 	}
 	
-	public Floor generateFloor() {
-		Layout layout = generateLayout();
-		return new Floor(layout);
+	public Floor generateFloor(int floor) {
+		Layout layout = generateLayout(floor);
+		Floor newFloor = new Floor(layout);
+		
+		igen.generateInterior(newFloor, floor);
+		newFloor.setBounds();
+		
+		return newFloor;
 	}
 	
-	public Layout generateLayout() {
+	public Layout generateLayout(int floor) {
 		Layout layout = new Layout();
 		Point coord = new Point(Floor.FLOOR_SIZE / 2, Floor.FLOOR_SIZE / 2);
 		
 		// place starting room
 		Room room = new Room(coord.x, coord.y, ROOM_TYPE.START);
-		igen.generateInterior(room, 0);
 		layout.addRoom(room, coord.x, coord.y);
 		
 		// place main path
 		RoomPlacer placer = new RoomPlacer(layout);
-		placer.mainPath();
+		placer.mainPath(floor);
 		
 		// place extra rooms
-		placer.addExtra();
+		placer.addExtra(floor);
 		
 		printLayout(layout);
 		
@@ -90,7 +94,7 @@ public class FloorGenerator {
 			compass = 0; // 0=NORTH, 1=EAST, 2=SOUTH, 3=WEST
 		}
 		
-		public void mainPath() {
+		public void mainPath(int floor) {
 			compass = rng.nextInt(4); // 0-3
 			int turns = 2;
 			Room newRoom;
@@ -114,7 +118,6 @@ public class FloorGenerator {
 				followCompass();
 				
 				newRoom = new Room(newX, newY, ROOM_TYPE.NORMAL);
-				igen.generateInterior(newRoom, 0);
 				layout.addRoom(newRoom, newX, newY);
 				rooms.add(newRoom);
 			}
@@ -125,11 +128,10 @@ public class FloorGenerator {
 			followCompass();
 			
 			newRoom = new Room(newX, newY, ROOM_TYPE.END);
-			igen.generateInterior(newRoom, 0);
 			layout.addRoom(newRoom, newX, newY);
 		}
 		
-		public void addExtra() {
+		public void addExtra(int floor) {
 			boolean foundPlace = false;
 			int choice = 0;
 			Room target = null;
@@ -145,7 +147,6 @@ public class FloorGenerator {
 					followCompass();
 					if (layout.getType(newX, newY) == ROOM_TYPE.NULL) {
 						newRoom = new Room(newX, newY, ROOM_TYPE.NORMAL);
-						igen.generateInterior(newRoom, 0);
 						layout.addRoom(newRoom, newX, newY);
 						rooms.add(newRoom);
 						foundPlace = true;
@@ -173,11 +174,9 @@ public class FloorGenerator {
 					if (layout.getType(newX, newY) == ROOM_TYPE.NULL) {
 						if (i != 1) {
 							newRoom = new Room(newX, newY, ROOM_TYPE.TREASURE);
-							igen.generateInterior(newRoom, 0);
 						}
 						else {
 							newRoom = new Room(newX, newY, ROOM_TYPE.SHOP);
-							igen.generateInterior(newRoom, 0);
 						}
 						layout.addRoom(newRoom, newX, newY);
 						foundPlace = true;

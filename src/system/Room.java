@@ -16,25 +16,13 @@ public class Room {
 	}
 	
 	private Point position;
+	private Point absPos;
 	private ROOM_TYPE type;
-	private Interior interior;
 	
 	public Room(int x, int y, ROOM_TYPE roomtype) {
 		position = new Point(x, y);
+		absPos = new Point((int)position.x * ROOM_WIDTH, (int)position.y * ROOM_HEIGHT);
 		type = roomtype;
-		interior = new Interior();
-	}
-	
-	public void addObject(GameObject obj, int x, int y) {
-		interior.addObj(obj, x, y);
-	}
-	
-	public GameObject getObject(int x, int y) {
-		return interior.get(x, y);
-	}
-	
-	public GameObject[][] getObjectGrid() {
-		return interior.getAll();
 	}
 	
 	public ROOM_TYPE getType() {
@@ -45,7 +33,15 @@ public class Room {
 		return position;
 	}
 	
-	private class Interior {
+	public Point getPositionAbs() {
+		return absPos;
+	}
+	
+	public boolean isWithin(int x, int y) {
+		return (x > absPos.x && x < absPos.x + ROOM_WIDTH && y > absPos.y && y < absPos.y + ROOM_HEIGHT);
+	}
+	
+	/*private class Interior {
 		private int width;
 		private int height;
 		private GameObject[][] objects;
@@ -72,5 +68,5 @@ public class Room {
 		public GameObject[][] getAll() {
 			return objects;
 		}
-	}
+	}*/
 }

@@ -16,130 +16,133 @@ public class InteriorGenerator {
 		rng = new Random(seed);
 	}
 	
-	public void generateInterior(Room room, int floor) {
-		Room.ROOM_TYPE type = room.getType();
-		
-		switch (type) {
-		case START:
-			generateStart(room);
-			break;
-		case TREASURE:
-			generateTreasure(room, floor);
-			break;
-		case SHOP:
-			generateShop(room, floor);
-			break;
-		case END:
-			generateEnd(room, floor);
-			break;
-		default:
-			generateNormal(room, floor);
-			break;
+	public void generateInterior(Floor floor, int floorNum) {
+		for (Room room : floor.getLayout().getRoomList()) {
+			Room.ROOM_TYPE type = room.getType();
+			switch (type) {
+			case START:
+				generateStart(floor, room);
+				break;
+			case TREASURE:
+				generateTreasure(floor, room, floorNum);
+				break;
+			case SHOP:
+				generateShop(floor, room, floorNum);
+				break;
+			case END:
+				generateEnd(floor, room, floorNum);
+				break;
+			default:
+				generateNormal(floor, room, floorNum);
+				break;
+			}
+			for (int i = 1; i < Room.ROOM_HEIGHT; i++) {
+				for (int j = 1; j < Room.ROOM_WIDTH; j++) {
+					if (floor.getFurniture(j + room.getPositionAbs().x, i + room.getPositionAbs().y) == null) {
+						floor.addFurniture(new Empty(j + room.getPositionAbs().x, i + room.getPositionAbs().y));
+					}
+				}
+			}
 		}
 	}
 	
-	private void generateStart(Room room) {
-		int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-		int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
+	private void generateStart(Floor floor, Room room) {
+		int roomX = room.getPositionAbs().x;
+		int roomY = room.getPositionAbs().y;
 		int targetX = 0;
 		int targetY = 0;
 		
 		//TODO spawn player
 	}
 	
-	private void generateTreasure(Room room, int floor) {
-		int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-		int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
-		int targetX = 0;
-		int targetY = 0;
+	private void generateTreasure(Floor floor, Room room, int floorNum) {
+		int roomX = room.getPositionAbs().x;
+		int roomY = room.getPositionAbs().y;
+		int targetX = 1;
+		int targetY = 1;
 		
 		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < Room.ROOM_WIDTH - 1; j++) {
-				if (j != 4) {
-					room.addObject(new Wall(roomX+j, roomY+targetY), j, targetY);
+			for (int j = 1; j < Room.ROOM_WIDTH; j++) {
+				if (j != 5) {
+					floor.addFurniture(new Wall(roomX+j, roomY+targetY));
 				}
 			}
-			targetY = Room.ROOM_HEIGHT - 2;
+			targetY = Room.ROOM_HEIGHT - 1;
 		}
 		
 		//TODO spawn treasure
 	}
 	
-	private void generateShop(Room room, int floor) {
-		GameObject[][] objectGrid = room.getObjectGrid();
-		int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-		int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
-		int targetX = 0;
-		int targetY = 0;
+	private void generateShop(Floor floor, Room room, int floorNum) {
+		int roomX = room.getPositionAbs().x;
+		int roomY = room.getPositionAbs().y;
+		int targetX = 1;
+		int targetY = 1;
 		
-		room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
-		targetX = Room.ROOM_WIDTH - 2;
-		room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
-		targetY = Room.ROOM_HEIGHT - 2;
-		room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
-		targetX = 0;
-		room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		targetX = Room.ROOM_WIDTH - 1;
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		targetY = Room.ROOM_HEIGHT - 1;
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+		targetX = 1;
+		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
 		
 		//TODO spawn shopkeeper
 	}
 	
-	private void generateEnd(Room room, int floor) {
-		int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-		int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
+	private void generateEnd(Floor floor, Room room, int floorNum) {
+		int roomX = room.getPositionAbs().x;
+		int roomY = room.getPositionAbs().y;
 		int targetX = 0;
 		int targetY = 0;
 		
 		//TODO spawn boss/stairs
 	}
 	
-	private void generateNormal(Room room, int floor) {
-		addWalls(room);
-		int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-		int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
+	private void generateNormal(Floor floor, Room room, int floorNum) {
+		addWalls(floor, room);
+		int roomX = room.getPositionAbs().x;
+		int roomY = room.getPositionAbs().y;
 		int targetX = 0;
 		int targetY = 0;
 		
 		//TODO spawn enemies/items
 	}
 	
-	private void addWalls(Room room) {
-		int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-		int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
-		int targetX = 0;
-		int targetY = 0;
+	private void addWalls(Floor floor, Room room) {
+		int roomX = room.getPositionAbs().x;
+		int roomY = room.getPositionAbs().y;
+		int targetX = 1;
+		int targetY = 1;
 		int margin = 1 + rng.nextInt(2); // 1-2
 		int layoutChoice = rng.nextInt(3); // 0-2
-		Wall wall = null;
 		
 		if (layoutChoice == 0) { // 33%
 			// cross pattern
-			targetX = (Room.ROOM_WIDTH - 1) / 2;
-			for (int i = margin; i < Room.ROOM_HEIGHT - 2 - margin; i++) {
+			targetX = Room.ROOM_WIDTH / 2;
+			for (int i = margin+1; i < Room.ROOM_HEIGHT - 1 - margin; i++) {
 				if (rng.nextInt(5) != 0) { // 80%
-					wall = new Wall(roomX+targetX, roomY+i);
-					room.addObject(wall, targetX, i);
+					floor.addFurniture(new Wall(roomX+targetX, roomY+i));
 				}
 			}
-			targetY = (Room.ROOM_HEIGHT - 1) / 2;
-			for (int i = margin; i < Room.ROOM_WIDTH - 2 - margin; i++) {
+			targetY = Room.ROOM_HEIGHT / 2;
+			for (int i = margin+1; i < Room.ROOM_WIDTH - 1 - margin; i++) {
 				if (rng.nextInt(5) != 0) { // 80%
-					wall = new Wall(roomX+i, roomY+targetY);
-					room.addObject(wall, i, targetY);
+					floor.addFurniture(new Wall(roomX+i, roomY+targetY));
 				}
 			}
 		}
 		else if (layoutChoice == 1){ // 33%
 			// pillar pattern
-			targetX = margin;
-			targetY = margin;
-			wall = new Wall(roomX+targetX, roomY+targetY);
-			room.addObject(wall, targetX, targetY);
-			targetX = Room.ROOM_WIDTH - 2 - margin;
-			room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
-			targetY = Room.ROOM_HEIGHT - 2 - margin;
-			room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
-			targetX = margin;
-			room.addObject(new Wall(roomX+targetX, roomY+targetY), targetX, targetY);
+			targetX = margin+1;
+			targetY = margin+1;
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			targetX = Room.ROOM_WIDTH - 1 - margin;
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			targetY = Room.ROOM_HEIGHT - 1 - margin;
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
+			targetX = margin + 1;
+			floor.addFurniture(new Wall(roomX+targetX, roomY+targetY));
 		}
 		// else add no walls 33%
 	}

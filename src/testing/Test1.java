@@ -2,6 +2,7 @@ package testing;
 
 import org.junit.*;
 
+import system.Floor;
 import system.FloorGenerator;
 
 import static org.junit.Assert.*;
@@ -25,7 +26,9 @@ public class Test1 {
     @Test
     public void SampleTest() {
     	
-    	fgen.generateFloor();
+    	Floor floor = fgen.generateFloor(0);
+    	
+    	floor.printFloorplan();
     	
         assertEquals(1, 1);
     }

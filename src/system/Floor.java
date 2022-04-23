@@ -7,15 +7,93 @@ public class Floor {
 	public static int FLOOR_SIZE = 20;
 	
 	private Layout layout;
-	Wall[][] walls = new Wall[FLOOR_SIZE*Room.ROOM_WIDTH][FLOOR_SIZE*Room.ROOM_HEIGHT];
-	ArrayList<GameObject> objects;
+	ArrayList<GameObject> wallsList;
+	ArrayList<GameObject> furnitureList;
+	ArrayList<GameObject> itemsList;
+	ArrayList<GameObject> entitiesList;
 	private int compass, oldX, oldY, newX, newY;
+	private int topRow, leftSide, bottom;
 	
 	public Floor(Layout lout) {
 		layout = lout;
+		wallsList = new ArrayList<GameObject>();
+		furnitureList = new ArrayList<GameObject>();
+		itemsList = new ArrayList<GameObject>();
+		entitiesList = new ArrayList<GameObject>();
 		generateWalls();
 		makeDoors();
-		printFloor();
+		topRow = FLOOR_SIZE * Room.ROOM_HEIGHT;
+		leftSide = FLOOR_SIZE * Room.ROOM_WIDTH;
+		bottom = 0;
+	}
+	
+	public void setBounds() {
+		for (GameObject obj : wallsList) {
+			if (obj.getPosition().y < topRow) {
+				topRow = obj.getPosition().y;
+			}
+			if (obj.getPosition().x < leftSide) {
+				leftSide = obj.getPosition().x;
+			}
+			if (obj.getPosition().y > bottom) {
+				bottom = obj.getPosition().y;
+			}
+		}
+		topRow--;
+		leftSide--;
+		bottom++;
+	}
+	
+	public void addWall(GameObject obj) {
+		wallsList.add(obj);
+	}
+	
+	public GameObject getWall(int x, int y) {
+		for (GameObject obj : wallsList) {
+			if (obj.getPosition().x == x && obj.getPosition().y == y)
+				return obj;
+		}
+		return null;
+	}
+
+	public void addFurniture(GameObject obj) {
+		furnitureList.add(obj);
+	}
+	
+	public GameObject getFurniture(int x, int y) {
+		for (GameObject obj : furnitureList) {
+			if (obj.getPosition().x == x && obj.getPosition().y == y)
+				return obj;
+		}
+		return null;
+	}
+	
+	public void addItem(GameObject obj) {
+		itemsList.add(obj);
+	}
+
+	public GameObject getItem(int x, int y) {
+		for (GameObject obj : itemsList) {
+			if (obj.getPosition().x == x && obj.getPosition().y == y)
+				return obj;
+		}
+		return null;
+	}
+	
+	public void addEntity(GameObject obj) {
+		entitiesList.add(obj);
+	}
+
+	public GameObject getEntity(int x, int y) {
+		for (GameObject obj : entitiesList) {
+			if (obj.getPosition().x == x && obj.getPosition().y == y)
+				return obj;
+		}
+		return null;
+	}
+	
+	public Layout getLayout() {
+		return layout;
 	}
 	
 	private void generateWalls() {
@@ -25,19 +103,19 @@ public class Floor {
 			targetY = (int)room.getPosition().getY() * Room.ROOM_HEIGHT;
 			for (int i = 0; i < Room.ROOM_WIDTH + 1; i++) {
 				targetX = (int)room.getPosition().getX() * Room.ROOM_WIDTH + i;
-				walls[targetX][targetY] = new Wall(targetX, targetY);
+				wallsList.add(new Wall(targetX, targetY));
 			}
 			for (int i = 0; i < Room.ROOM_HEIGHT - 1; i++) {
 				targetX = (int)room.getPosition().getX() * Room.ROOM_WIDTH;
 				targetY = (int)room.getPosition().getY() * Room.ROOM_HEIGHT + 1 + i;
-				walls[targetX][targetY] = new Wall(targetX, targetY);
+				wallsList.add(new Wall(targetX, targetY));
 				targetX += Room.ROOM_WIDTH;
-				walls[targetX][targetY] = new Wall(targetX, targetY);
+				wallsList.add(new Wall(targetX, targetY));
 			}
 			targetY = (int)room.getPosition().getY() * Room.ROOM_HEIGHT + Room.ROOM_HEIGHT;
 			for (int i = 0; i < Room.ROOM_WIDTH + 1; i++) {
 				targetX = (int)room.getPosition().getX() * Room.ROOM_WIDTH + i;
-				walls[targetX][targetY] = new Wall(targetX, targetY);
+				wallsList.add(new Wall(targetX, targetY));
 			}
 		}
 	}
@@ -47,30 +125,31 @@ public class Floor {
 			compass = 0;
 			oldX = room.getPosition().x;
 			oldY = room.getPosition().y;
+			int targetX, targetY;
 			
 			for (int i = 0; i < 4; i++) {
 				followCompass();
 				if (layout.getType(newX, newY) != Room.ROOM_TYPE.NULL) {
 					switch (compass) {
 					case 0: // NORTH
-						walls[(int)room.getPosition().x * Room.ROOM_WIDTH + (Room.ROOM_WIDTH / 2)]
-							 [(int)room.getPosition().y * Room.ROOM_HEIGHT]
-									 = null;
+						targetX = (int)room.getPosition().x * Room.ROOM_WIDTH + (Room.ROOM_WIDTH / 2);
+						targetY = (int)room.getPosition().y * Room.ROOM_HEIGHT;
+						wallsList.remove(getWall(targetX, targetY));
 						break;
 					case 1: // EAST
-						walls[(int)room.getPosition().x * Room.ROOM_WIDTH + (Room.ROOM_WIDTH)]
-							 [(int)room.getPosition().y * Room.ROOM_HEIGHT + (Room.ROOM_HEIGHT / 2)]
-									 = null;
+						targetX = (int)room.getPosition().x * Room.ROOM_WIDTH + (Room.ROOM_WIDTH);
+						targetY = (int)room.getPosition().y * Room.ROOM_HEIGHT + (Room.ROOM_HEIGHT / 2);
+						wallsList.remove(getWall(targetX, targetY));
 						break;
 					case 2: // SOUTH
-						walls[(int)room.getPosition().x * Room.ROOM_WIDTH + (Room.ROOM_WIDTH / 2)]
-							 [(int)room.getPosition().y * Room.ROOM_HEIGHT + (Room.ROOM_HEIGHT)]
-									 = null;
+						targetX = (int)room.getPosition().x * Room.ROOM_WIDTH + (Room.ROOM_WIDTH / 2);
+						targetY = (int)room.getPosition().y * Room.ROOM_HEIGHT + (Room.ROOM_HEIGHT);
+						wallsList.remove(getWall(targetX, targetY));
 						break;
 					case 3: // WEST
-						walls[(int)room.getPosition().x * Room.ROOM_WIDTH]
-							 [(int)room.getPosition().y * Room.ROOM_HEIGHT + (Room.ROOM_HEIGHT / 2)]
-									 = null;
+						targetX = (int)room.getPosition().x * Room.ROOM_WIDTH;
+						targetY = (int)room.getPosition().y * Room.ROOM_HEIGHT + (Room.ROOM_HEIGHT / 2);
+						wallsList.remove(getWall(targetX, targetY));
 					}
 				}
 				compass = (compass + 1) % 4;
@@ -78,28 +157,24 @@ public class Floor {
 		}
 	}
 	
-	private void printFloor() {
-		GameObject[][] wholeFloor = new GameObject[walls.length][walls[0].length];
-		for (int i = 0; i < walls.length; i++) {
-			for (int j = 0; j < walls[0].length; j++) {
-				if (walls[i][j] != null) {
-					wholeFloor[i][j] = walls[i][j];
-				}
-			}
+	public void printFloorplan() {
+		
+		GameObject[][] wholeFloor = new GameObject[FLOOR_SIZE*Room.ROOM_WIDTH][FLOOR_SIZE*Room.ROOM_HEIGHT];
+		for (GameObject obj : wallsList) {
+			wholeFloor[obj.getPosition().x][obj.getPosition().y] = obj;
+		}
+		for (GameObject obj : furnitureList) {
+			wholeFloor[obj.getPosition().x][obj.getPosition().y] = obj;
+		}
+		for (GameObject obj : itemsList) {
+			wholeFloor[obj.getPosition().x][obj.getPosition().y] = obj;
+		}
+		for (GameObject obj : entitiesList) {
+			wholeFloor[obj.getPosition().x][obj.getPosition().y] = obj;
 		}
 		
-		for (Room room : layout.getRoomList()) {
-			int roomX = room.getPosition().x * Room.ROOM_WIDTH;
-			int roomY = room.getPosition().y * Room.ROOM_HEIGHT;
-			for (int i = 0; i < Room.ROOM_HEIGHT - 1; i++) {
-				for (int j = 0; j < Room.ROOM_WIDTH - 1; j++) {
-					wholeFloor[roomX+1+j][roomY+1+i] = room.getObject(j, i);
-				}
-			}
-		}
-		
-		for (int i = 0; i < FLOOR_SIZE*Room.ROOM_HEIGHT; i++) {
-			for (int j = 0; j < FLOOR_SIZE*Room.ROOM_WIDTH; j++) {
+		for (int i = topRow; i < bottom; i++) {
+			for (int j = leftSide; j < FLOOR_SIZE*Room.ROOM_WIDTH; j++) {
 				if (wholeFloor[j][i] != null) {
 					System.out.print(wholeFloor[j][i].getAscii() + " ");
 				}else {
