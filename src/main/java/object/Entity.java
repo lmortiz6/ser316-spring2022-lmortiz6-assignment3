@@ -45,9 +45,14 @@ public class Entity extends GameObject{
 	protected int hpBonus;
 	protected int mpBonus;
 	protected int enBonus;
+	protected double defenseBonus;
+	protected double magickBonus;
+	protected int moveBonus;
+	protected double buildupBonus;
 	
 	protected Item dropItem;
 	protected Entity attacker;
+	protected boolean enemyKilled;
 
 	public Entity(int x, int y, Floor floor) {
 		super(x, y, floor);
@@ -76,8 +81,13 @@ public class Entity extends GameObject{
 		hpBonus = 0;
 		mpBonus = 0;
 		enBonus = 0;
+		defenseBonus = 1;
+		magickBonus = 1;
+		moveBonus = 0;
+		buildupBonus = 1;
 		dropItem = null;
 		attacker = null;
+		enemyKilled = false;
 	}
 	
 	////// GENERATE //////
@@ -113,6 +123,10 @@ public class Entity extends GameObject{
 		enBonus = 0;
 		damageBonusStart = 1;
 		savingThrowBonus = 0;
+		defenseBonus = 1;
+		magickBonus = 1;
+		moveBonus = 0;
+		buildupBonus = 1;
 		for (Iterator<Effect> it = effects.iterator(); it.hasNext(); ) {
 			Effect effect = it.next();
 			if (effect.getType() == PROC_TYPE.TURN) {
@@ -123,10 +137,9 @@ public class Entity extends GameObject{
 		hpMax = hpBase+hpBonus;
 		mpMax = mpBase+mpBonus;
 		enMax = enBase+enBonus;
-		if (en < enMax) {
-			en = enMax;
-		}
+		energize();
 		damageBonusStart = damageBonus;
+		enemyKilled = false;
 	}
 	
 	public void endTurn() {
@@ -138,10 +151,10 @@ public class Entity extends GameObject{
 		}
 		removeEffects();
 		if (poisonBuildup > 0) {
-			poisonBuildup -= Math.min(7, poisonBuildup);
+			poisonBuildup -= Math.min(10 / buildupBonus, poisonBuildup);
 		}
 		if (bleedBuildup > 0) {
-			bleedBuildup -= Math.min(5, bleedBuildup);
+			bleedBuildup -= Math.min(7 / buildupBonus, bleedBuildup);
 		}
 		en = 0;
 		tookTurn = true;
@@ -152,7 +165,17 @@ public class Entity extends GameObject{
 	public int getMaxHP() {
 		return hpMax;
 	}
+	public int getHP() {
+		return hp;
+	}
 	
+	public int getMP() {
+		return mp;
+	}
+	
+	public int getMaxEnergy() {
+		return enMax;
+	}
 	public int getEnergy() {
 		return en;
 	}
@@ -185,6 +208,10 @@ public class Entity extends GameObject{
 		return (int)(weapon.getDamage() * damageBonus);
 	}
 	
+	public boolean killedEnemy() {
+		return enemyKilled;
+	}
+	
 	////// INVENTORY //////
 	
 	public void equipWeapon(Weapon weapon) {
@@ -215,6 +242,10 @@ public class Entity extends GameObject{
 	
 	////// EFFECTS //////
 	
+	public ArrayList<Effect> getEffects() {
+		return effects;
+	}
+	
 	public void addEffect(Effect effect) {
 		effects.add(effect);
 	}
@@ -225,6 +256,7 @@ public class Entity extends GameObject{
 		for (Effect effect : fxToRemove) {
 			effects.remove(effect);
 		}
+		fxToRemove.clear();
 	}
 	
 	public void modifyDamage(double amount) {
@@ -244,6 +276,18 @@ public class Entity extends GameObject{
 	}
 	public void modifyEn(int amount) {
 		enBonus += amount;
+	}
+	public void modifyDefense(double amount) {
+		defenseBonus *= amount;
+	}
+	public void modifyMagick(double amount) {
+		magickBonus *= amount;
+	}
+	public void modifyMoveCost(int amount) {
+		moveBonus += amount;
+	}
+	public void modifyBuildup(double amount) {
+		buildupBonus *= amount;
 	}
 	
 	////// ACTIONS //////
@@ -268,7 +312,7 @@ public class Entity extends GameObject{
 	}
 
 	public void move(int x, int y) {
-		if (en < WALK_COST) {
+		if (en < WALK_COST + moveBonus) {
 			return;
 		}
 		GameObject obj = floor.getObject(x, y);
@@ -277,7 +321,7 @@ public class Entity extends GameObject{
 		}
 		else {
 			position.setLocation(x, y);
-			en -= WALK_COST;
+			en -= WALK_COST + moveBonus;
 		}
 	}
 	
@@ -345,12 +389,33 @@ public class Entity extends GameObject{
 	public void destroy() {
 		System.out.println(name + " destroyed!");
 		floor.removeEntity(this);
+		if (attacker != null) {
+			attacker.killedBy();
+		}
 	}
 	public void setAttacker(Entity attacker) {
 		this.attacker = attacker;
 	}
 	public Entity getAttacker() {
 		return attacker;
+	}
+	
+	public void heal(int amount) {
+		hp += amount / defenseBonus;
+		if (hp > hpMax) {
+			hp = hpMax;
+		}
+	}
+	
+	public void mpGain(int amount) {
+		mp += amount / magickBonus;
+		if (mp > mpMax) {
+			mp = mpMax;
+		}
+	}
+	
+	public void enGain(int amount) {
+		en += amount;
 	}
 	
 	public void buildPoison(int amount) {
@@ -391,8 +456,19 @@ public class Entity extends GameObject{
 		}
 	}
 	
-	public void energize(int amount) {
-		en += amount;
+	public void killedBy() {
+		enemyKilled = true;
+		for (Iterator<Effect> it = effects.iterator(); it.hasNext(); ) {
+			Effect effect = it.next();
+			if (effect.getType() == PROC_TYPE.KILL) {
+				effect.proc();
+			}
+		}
+		removeEffects();
+	}
+	
+	public void energize() {
+		en = enMax;
 	}
 	
 	public String toString() {

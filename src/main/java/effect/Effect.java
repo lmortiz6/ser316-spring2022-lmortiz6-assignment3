@@ -7,13 +7,15 @@ public class Effect {
 		TURN,
 		TICK,
 		ATTACK,
-		DAMAGED
+		DAMAGED,
+		KILL
 	}
 	
 	protected PROC_TYPE type;
 	protected int proc_ammo;
 	protected Entity owner;
 	protected boolean stackable;
+	protected int modifier;
 	
 	public Effect(Entity owner) {
 		this.owner = owner;
@@ -21,6 +23,10 @@ public class Effect {
 	
 	public PROC_TYPE getType() {
 		return type;
+	}
+	
+	public void setType(PROC_TYPE type) {
+		this.type = type;
 	}
 	
 	public void proc() {
@@ -37,5 +43,17 @@ public class Effect {
 	
 	public int getAmmo() {
 		return proc_ammo;
+	}
+	
+	public void setMod(int mod) {
+		modifier = mod;
+	}
+	
+	public void setOwner(Entity owner) {
+		this.owner = owner;
+	}
+	
+	public void setAmmo(int ammo) {
+		proc_ammo = ammo;
 	}
 }

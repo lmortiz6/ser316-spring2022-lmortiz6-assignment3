@@ -18,7 +18,7 @@ public class Floor {
 	ArrayList<GameObject> itemsList;
 	ArrayList<GameObject> entitiesList;
 	private int compass, oldX, oldY, newX, newY;
-	private int topRow, leftSide, bottom;
+	private int topRow, leftSide, bottom, rightSide;
 	
 	public Floor(Layout lout) {
 		layout = lout;
@@ -31,6 +31,8 @@ public class Floor {
 		topRow = FLOOR_SIZE * Room.ROOM_HEIGHT;
 		leftSide = FLOOR_SIZE * Room.ROOM_WIDTH;
 		bottom = 0;
+		rightSide = 0;
+		setBounds();
 	}
 	
 	public void setBounds() {
@@ -44,10 +46,26 @@ public class Floor {
 			if (obj.getPosition().y > bottom) {
 				bottom = obj.getPosition().y;
 			}
+			if (obj.getPosition().x > rightSide) {
+				rightSide = obj.getPosition().x;
+			}
 		}
 		topRow--;
 		leftSide--;
 		bottom++;
+		rightSide++;
+	}
+	public int getTop() {
+		return topRow;
+	}
+	public int getLeft() {
+		return leftSide;
+	}
+	public int getBottom() {
+		return bottom;
+	}
+	public int getRight() {
+		return rightSide;
 	}
 	
 	public void addObject(GameObject obj) {

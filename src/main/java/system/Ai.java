@@ -4,11 +4,15 @@ import main.java.object.Entity;
 
 public class Ai {
 	
+	protected static int aggroBonus;
+	
 	protected Entity owner;
 	protected int maxActions;
 	protected int actions;
 	
-	public Ai() {}
+	public Ai() {
+		aggroBonus = 0;
+	}
 	
 	public void setOwner(Entity owner) {
 		this.owner = owner;
@@ -29,5 +33,9 @@ public class Ai {
 	
 	protected void end() {
 		owner.endTurn();
+	}
+	
+	public static void modifyAggro(int amount) {
+		aggroBonus += amount;
 	}
 }

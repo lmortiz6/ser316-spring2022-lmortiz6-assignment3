@@ -3,7 +3,7 @@ package main.java.system;
 import main.java.object.Weapon;
 
 public class WeaponGenerator {
-	public static Weapon genWeapon(String name, int modifier, int x, int y) {
+	public static Weapon genWeapon(String name, int x, int y, int modifier) {
 		switch (name.toLowerCase()) {
 		case "dagger":
 			return genDagger(modifier, x, y);

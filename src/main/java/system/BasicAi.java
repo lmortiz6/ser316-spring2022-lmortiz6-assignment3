@@ -17,7 +17,7 @@ public class BasicAi extends Ai{
 		int diffX = Game.player.getPosition().x - owner.getPosition().x;
 		int diffY = Game.player.getPosition().y - owner.getPosition().y;
 		
-		if (Math.abs(diffX) > AGGRO_RANGE || Math.abs(diffY) > AGGRO_RANGE) {
+		if (Math.abs(diffX) > AGGRO_RANGE+aggroBonus || Math.abs(diffY) > AGGRO_RANGE+aggroBonus) {
 			return;
 		}
 		

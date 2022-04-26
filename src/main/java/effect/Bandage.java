@@ -2,20 +2,18 @@ package main.java.effect;
 
 import main.java.object.Entity;
 
-public class Poison extends Effect{
+public class Bandage extends Effect{
 
-	public Poison(Entity owner) {
+	public Bandage(Entity owner) {
 		super(owner);
+		proc_ammo = 1;
 		type = PROC_TYPE.TICK;
-		proc_ammo = 10;
-		stackable = false;
 	}
 	
 	@Override
 	public void proc() {
 		super.proc();
-		owner.damageNoEffects(5);
+		owner.removeEffects();
 		exhaust();
 	}
-
 }

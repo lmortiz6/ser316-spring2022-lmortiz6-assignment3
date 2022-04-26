@@ -19,6 +19,8 @@ public class Relic extends Item{
 	@Override
 	public void pickUp(Entity entity) {
 		super.pickUp(entity);
+		effect.setAmmo(-1);
+		effect.setOwner(entity);
 		entity.addEffect(effect);
 	}
 

@@ -13,8 +13,16 @@ public class Bleed extends Effect{
 
 	@Override
 	public void proc() {
+		boolean bandage = false;
+		for (Effect effect : owner.getEffects()) {
+			if (effect instanceof Bandage) {
+				bandage = true;
+			}
+		}
 		super.proc();
-		owner.damageNoEffects((int)(owner.getMaxHP() * 0.25));
+		if (!bandage) {
+			owner.damageNoEffects((int)(owner.getMaxHP() * 0.25));
+		}
 		exhaust();
 	}
 }
