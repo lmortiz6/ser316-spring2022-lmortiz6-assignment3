@@ -9,16 +9,15 @@ import main.java.system.Room.ROOM_TYPE;
 public class FloorGenerator {
 
 	long seed;
-	Random rng;
-	InteriorGenerator igen;
+	private static Random rng;
+	private static InteriorGenerator igen;
 	
-	public FloorGenerator(long sd) {
-		seed = sd;
-		rng = new Random(seed);
-		igen = new InteriorGenerator(seed);
+	static {
+		rng = Game.levelrng;
+		igen = new InteriorGenerator();
 	}
 	
-	public Floor generateFloor(int floor) {
+	public static Floor generateFloor(int floor) {
 		Layout layout = generateLayout(floor);
 		Floor newFloor = new Floor(layout);
 		
@@ -28,7 +27,7 @@ public class FloorGenerator {
 		return newFloor;
 	}
 	
-	public Layout generateLayout(int floor) {
+	public static Layout generateLayout(int floor) {
 		Layout layout = new Layout();
 		Point coord = new Point(Floor.FLOOR_SIZE / 2, Floor.FLOOR_SIZE / 2);
 		
@@ -37,18 +36,18 @@ public class FloorGenerator {
 		layout.addRoom(room, coord.x, coord.y);
 		
 		// place main path
-		RoomPlacer placer = new RoomPlacer(layout);
-		placer.mainPath(floor);
+		RoomPlacer.setUp(layout);
+		RoomPlacer.mainPath(floor);
 		
 		// place extra rooms
-		placer.addExtra(floor);
+		RoomPlacer.addExtra(floor);
 		
 		printLayout(layout);
 		
 		return layout;
 	}
 	
-	private void printLayout(Layout layout) {
+	private static void printLayout(Layout layout) {
 		for (int i = 0; i < Floor.FLOOR_SIZE; i++) {
 			for (int j = 0; j < Floor.FLOOR_SIZE; j++) {
 				switch (layout.getType(j, i)) {
@@ -76,16 +75,16 @@ public class FloorGenerator {
 		}
 	}
 	
-	private class RoomPlacer {
-		ArrayList<Room> rooms;
-		Layout layout;
-		int mainCount;
-		int extraCount;
-		int specCount;
-		int compass;
-		int oldX, oldY, newX, newY;
+	private static class RoomPlacer {
+		static ArrayList<Room> rooms;
+		static Layout layout;
+		static int mainCount;
+		static int extraCount;
+		static int specCount;
+		static int compass;
+		static int oldX, oldY, newX, newY;
 		
-		public RoomPlacer(Layout lout) {
+		public static void setUp(Layout lout) {
 			layout = lout;
 			rooms = new ArrayList<Room>(layout.getRoomList());
 			mainCount = 4 + rng.nextInt(3); // 4-6
@@ -94,7 +93,7 @@ public class FloorGenerator {
 			compass = 0; // 0=NORTH, 1=EAST, 2=SOUTH, 3=WEST
 		}
 		
-		public void mainPath(int floor) {
+		public static void mainPath(int floor) {
 			compass = rng.nextInt(4); // 0-3
 			int turns = 2;
 			Room newRoom;
@@ -131,7 +130,7 @@ public class FloorGenerator {
 			layout.addRoom(newRoom, newX, newY);
 		}
 		
-		public void addExtra(int floor) {
+		public static void addExtra(int floor) {
 			boolean foundPlace = false;
 			int choice = 0;
 			Room target = null;
@@ -196,7 +195,7 @@ public class FloorGenerator {
 			
 		}
 		
-		private void followCompass() {
+		private static void followCompass() {
 			newX = oldX;
 			newY = oldY;
 			

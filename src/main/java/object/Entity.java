@@ -180,6 +180,10 @@ public class Entity extends GameObject{
 		return en;
 	}
 	
+	public int getSP() {
+		return sp;
+	}
+	
 	public int getVigor() {
 		return vig;
 	}
@@ -359,6 +363,13 @@ public class Entity extends GameObject{
 		return true;
 	}
 	
+	public void pickUp() {
+		Item item = (Item)floor.getItem(position.x, position.y);
+		if (item != null) {
+			item.pickUp(this);
+		}
+	}
+	
 	public boolean savingThrow(int bonus) {
 		if (main.java.system.Game.dice.nextInt(20) + bonus + savingThrowBonus > main.java.system.Game.dice.nextInt(20)) {
 			System.out.println("Dodged!");
@@ -420,6 +431,13 @@ public class Entity extends GameObject{
 		en += amount;
 	}
 	
+	public void spGain(int amount) {
+		sp += amount;
+		if (sp < 0) {
+			sp = 0;
+		}
+	}
+	
 	public void buildPoison(int amount) {
 		for (Iterator<Effect> it = effects.iterator(); it.hasNext(); ) {
 			Effect effect = it.next();
@@ -471,6 +489,10 @@ public class Entity extends GameObject{
 	
 	public void energize() {
 		en = enMax;
+	}
+	
+	public void increaseStat(String stat, int amount) {
+		
 	}
 	
 	public String toString() {

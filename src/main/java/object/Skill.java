@@ -57,6 +57,10 @@ public class Skill extends Item{
 		return enCost;
 	}
 	
+	public int getSpCost() {
+		return 0;
+	}
+	
 	public void use(String direction) {
 		if (owner.getHP() < hpCost || owner.getMP() < mpCost || owner.getEnergy() < enCost) {
 			return;

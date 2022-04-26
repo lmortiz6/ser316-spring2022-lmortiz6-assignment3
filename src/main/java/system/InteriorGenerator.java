@@ -10,13 +10,9 @@ import main.java.object.Wall;
 
 public class InteriorGenerator {
 	
-	
-
-	long seed;
 	Random rng;
 	
-	public InteriorGenerator(long sd) {
-		seed = sd;
+	public InteriorGenerator() {
 		rng = Game.levelrng;
 	}
 	
@@ -114,11 +110,11 @@ public class InteriorGenerator {
 		targetX = roomX + (Room.ROOM_WIDTH / 2) + 1;
 		targetY = roomY + (Room.ROOM_HEIGHT / 2);
 		
-		if ((Game.currentFloorNum + 1) % 2 == 0) {
-			floor.addEntity(EnemyPool.pull("elite", targetX, targetY, floor));
-		}
-		else if ((Game.currentFloorNum + 1) % 5 == 0) {
+		if ((Game.currentFloorNum + 1) % 5 == 0) {
 			floor.addEntity(EnemyPool.pull("boss", targetX, targetY, floor));
+		}
+		else if ((Game.currentFloorNum + 1) % 2 == 0) {
+			floor.addEntity(EnemyPool.pull("elite", targetX, targetY, floor));
 		}
 		
 		// spawn stairs
@@ -135,14 +131,15 @@ public class InteriorGenerator {
 		
 		// spawn enemies
 		
-		// 1-8 enemies, depending on rng and progression
-		int count = 1 + rng.nextInt(Math.min(8, Math.max(Game.currentFloorNum / 2, 3)));
+		// 1-6 enemies, depending on rng and floor progression
+		// 1-2 on floor 1
+		int count = 1 + rng.nextInt(Math.min(6, Math.max(Game.currentFloorNum / 2, 2)));
 		int loops;
 		String pool = "" + Math.min(5, Game.currentFloorNum + 1);
 		
 		for (int i = 0; i < count; i++) {
 			loops = 0;
-			while (!(floor.getObject(targetX, targetY) instanceof main.java.object.Empty) && loops < 30) {
+			while (!(floor.getObject(targetX, targetY) == null) && loops < 30) {
 				targetX = roomX + 1 + Game.dice.nextInt(Room.ROOM_WIDTH - 1);
 				targetY = roomY + 1 + Game.dice.nextInt(Room.ROOM_HEIGHT - 1);
 				loops++;

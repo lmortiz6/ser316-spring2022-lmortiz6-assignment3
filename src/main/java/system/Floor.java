@@ -159,6 +159,9 @@ public class Floor {
 	public void removeEntity(GameObject obj) {
 		entitiesList.remove(obj);
 	}
+	public ArrayList<GameObject> getEntities() {
+		return entitiesList;
+	}
 
 	public GameObject getEntity(int x, int y) {
 		for (GameObject obj : entitiesList) {
