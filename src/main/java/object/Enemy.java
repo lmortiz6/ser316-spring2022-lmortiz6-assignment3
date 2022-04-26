@@ -19,6 +19,13 @@ public class Enemy extends Entity{
 	}
 	
 	@Override
+	public void endTurn() {
+		super.endTurn();
+		main.java.ui.App.getFrame().asciiPane.repaint();
+		main.java.ui.App.getFrame().controlPane.refresh();
+	}
+	
+	@Override
 	public boolean validTarget(Entity target) {
 		return (target instanceof Player);
 	}

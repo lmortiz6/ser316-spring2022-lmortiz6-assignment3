@@ -114,7 +114,6 @@ public class Floor {
 	public void addWall(GameObject obj) {
 		wallsList.add(obj);
 	}
-	
 	public GameObject getWall(int x, int y) {
 		for (GameObject obj : wallsList) {
 			if ((int)obj.getPosition().x == x && (int)obj.getPosition().y == y)
@@ -122,12 +121,18 @@ public class Floor {
 		}
 		return null;
 	}
+	public ArrayList<GameObject> getWalls() {
+		return wallsList;
+	}
 
 	public void addFurniture(GameObject obj) {
 		furnitureList.add(obj);
 	}
 	public void removeFurniture(GameObject obj) {
 		furnitureList.remove(obj);
+	}
+	public ArrayList<GameObject> getFurnitureList() {
+		return furnitureList;
 	}
 	
 	public GameObject getFurniture(int x, int y) {
@@ -143,6 +148,9 @@ public class Floor {
 	}
 	public void removeItem(GameObject obj) {
 		itemsList.remove(obj);
+	}
+	public ArrayList<GameObject> getItems() {
+		return itemsList;
 	}
 
 	public GameObject getItem(int x, int y) {

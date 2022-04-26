@@ -11,6 +11,14 @@ public class Hitbox {
 		length = l;
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getLength() {
+		return length;
+	}
+	
 	public ArrayList<Point> getPositions(Point origin, String direction) {
 		switch (direction.toUpperCase()) {
 		case "NORTH":

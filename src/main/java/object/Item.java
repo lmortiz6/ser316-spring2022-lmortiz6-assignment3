@@ -26,5 +26,9 @@ public class Item extends GameObject{
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 }

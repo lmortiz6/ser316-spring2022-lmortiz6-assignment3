@@ -28,6 +28,11 @@ public class Weapon extends UseItem{
 		this.hb = hb;
 	}
 	
+	@Override
+	public void use() {
+		owner.equipWeapon(this);
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
@@ -43,6 +48,13 @@ public class Weapon extends UseItem{
 	
 	public ArrayList<Point> getPositions(Point origin, String direction) {
 		return hb.getPositions(origin, direction);
+	}
+	
+	public int getWidth() {
+		return hb.getWidth();
+	}
+	public int getLength() {
+		return hb.getLength();
 	}
 
 }

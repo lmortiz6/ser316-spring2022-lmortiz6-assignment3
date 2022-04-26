@@ -7,6 +7,7 @@ import java.util.Iterator;
 import main.java.effect.*;
 import main.java.effect.Effect.PROC_TYPE;
 import main.java.system.Floor;
+import main.java.system.Room;
 
 public class Entity extends GameObject{
 	
@@ -169,6 +170,9 @@ public class Entity extends GameObject{
 		return hp;
 	}
 	
+	public int getMaxMP() {
+		return mpMax;
+	}
 	public int getMP() {
 		return mp;
 	}
@@ -198,6 +202,14 @@ public class Entity extends GameObject{
 	}
 	public int getLuck() {
 		return lck;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Weapon getWeapon() {
+		return weapon;
 	}
 	
 	public int getDamage() {
@@ -493,6 +505,14 @@ public class Entity extends GameObject{
 	
 	public void increaseStat(String stat, int amount) {
 		
+	}
+	
+	public Room getRoom() {
+		for (Room room : floor.getLayout().getRoomList()) {
+			if (room.isWithin(position.x, position.y))
+				return room;
+		}
+		return null;
 	}
 	
 	public String toString() {
