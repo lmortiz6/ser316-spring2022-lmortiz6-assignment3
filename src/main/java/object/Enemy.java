@@ -26,6 +26,7 @@ public class Enemy extends Entity{
 	@Override
 	public void destroy() {
 		super.destroy();
+		floor.removeEntity(this);
 		if (dropItem != null) {
 			dropItem.setPosition(position.x, position.y);
 			dropItem.setFloor(floor);

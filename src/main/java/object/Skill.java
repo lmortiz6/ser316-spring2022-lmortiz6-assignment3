@@ -23,6 +23,7 @@ public class Skill extends Item{
 		modifier = 0;
 		hb = null;
 		effect = null;
+		ascii = '§';
 	}
 	
 	public void setUp(String name, int hp, int mp, int en, Hitbox hitbox, int mod, int dam) {

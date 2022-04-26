@@ -3,6 +3,8 @@ package main.java.object;
 import main.java.system.Floor;
 
 public class Player extends Entity{
+	
+	//private int gold;
 
 	public Player(int x, int y, Floor floor) {
 		super(x, y, floor);

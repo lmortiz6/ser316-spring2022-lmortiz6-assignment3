@@ -9,6 +9,7 @@ public class Relic extends Item{
 
 	public Relic(int x, int y, Floor floor) {
 		super(x, y, floor);
+		ascii = '⁕';
 	}
 	
 	public void setUp(String name, Effect effect) {

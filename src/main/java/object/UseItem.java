@@ -10,6 +10,7 @@ public class UseItem extends Item{
 
 	public UseItem(int x, int y, Floor floor) {
 		super(x, y, floor);
+		ascii = '¶';
 	}
 	
 	public void setUp(String name, Effect effect, int modifier) {

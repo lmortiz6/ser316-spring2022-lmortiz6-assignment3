@@ -36,7 +36,7 @@ public class Test1 {
     @Test
     public void SampleTest() {
     	
-    	Floor floor = fgen.generateFloor(0);
+    	/*Floor floor = fgen.generateFloor(0);
     	Player player = new Player(floor.getLayout().getRoomList().get(0).getPositionAbs().x + 5, floor.getLayout().getRoomList().get(0).getPositionAbs().y + 4, floor);
     	floor.addEntity(player);
     	
@@ -65,7 +65,7 @@ public class Test1 {
     	player.takeTurn();
     	player.attack("EAST");
 		floor.printFloorplan();
-		System.out.println(player.toString());
+		System.out.println(player.toString());*/
     	
     	
         assertEquals(1, 1);

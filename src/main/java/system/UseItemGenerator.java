@@ -4,31 +4,31 @@ import main.java.object.UseItem;
 import main.java.effect.*;
 
 public class UseItemGenerator {
-	public static UseItem genUseItem(String name, int x, int y, int modifier) {
+	public static UseItem genUseItem(String name, int x, int y, Floor floor, int modifier) {
 		switch (name.toLowerCase()) {
 		case "hppotion":
-			return genHpPotion(x, y, modifier);
+			return genHpPotion(x, y, floor, modifier);
 		case "mppotion":
-			return genMpPotion(x, y, modifier);
+			return genMpPotion(x, y, floor, modifier);
 		case "enpotion":
-			return genEnPotion(x, y, modifier);
+			return genEnPotion(x, y, floor, modifier);
 		case "antidote":
-			return genAntidote(x, y, modifier);
+			return genAntidote(x, y, floor, modifier);
 		case "teleport":
-			return genTeleport(x, y, modifier);
+			return genTeleport(x, y, floor, modifier);
 		case "attackup":
-			return genAttackUp(x, y, modifier);
+			return genAttackUp(x, y, floor, modifier);
 		case "thorns":
-			return genThorns(x, y, modifier);
+			return genThorns(x, y, floor, modifier);
 		case "savingthrow":
-			return genSavingThrow(x, y, modifier);
+			return genSavingThrow(x, y, floor, modifier);
 		default:
-			return genHpPotion(x, y, modifier);
+			return genHpPotion(x, y, floor, modifier);
 		}
 	}
 	
-	private static UseItem genHpPotion(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genHpPotion(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		Heal heal = new Heal(null, false);
 		String name = "Potion of Vitality";
 		if (modifier > 40) {
@@ -41,8 +41,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genMpPotion(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genMpPotion(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		MpGain mpgain = new MpGain(null);
 		String name = "Potion of Magick";
 		if (modifier > 40) {
@@ -55,8 +55,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genEnPotion(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genEnPotion(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		EnGain engain = new EnGain(null);
 		String name = "Potion of Energy";
 		if (modifier > 2) {
@@ -69,8 +69,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genAntidote(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genAntidote(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		Antidote antidote = new Antidote(null);
 		String name = "Antidote";
 		String desc = "Cures poison.";
@@ -80,8 +80,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genTeleport(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genTeleport(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		Teleport tp = new Teleport(null);
 		String name = "Scroll of Teleportation";
 		String desc = "Teleport to a random location.";
@@ -91,8 +91,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genAttackUp(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genAttackUp(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		AttackUp attackup = new AttackUp(null, false, false);
 		String name = "Scroll of ";
 		if (modifier > 50) {
@@ -106,8 +106,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genThorns(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genThorns(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		Thorns thorns = new Thorns(null);
 		String name = "Scroll of Thorns";
 		String desc = "Deal damage to next enemy that attacks you.";
@@ -117,8 +117,8 @@ public class UseItemGenerator {
 		return newItem;
 	}
 	
-	private static UseItem genSavingThrow(int x, int y, int modifier) {
-		UseItem newItem = new UseItem(x, y, Game.currentFloor);
+	private static UseItem genSavingThrow(int x, int y, Floor floor, int modifier) {
+		UseItem newItem = new UseItem(x, y, floor);
 		SavingThrowBoost thrw = new SavingThrowBoost(null);
 		String name = "Scroll of ";
 		if (modifier > 5) {

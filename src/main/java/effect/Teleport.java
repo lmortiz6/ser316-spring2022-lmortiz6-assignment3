@@ -47,7 +47,7 @@ public class Teleport extends Effect{
 		}
 		
 		if (exit < 30) {
-			owner.move(x, y);
+			owner.setPosition(x, y);
 		}
 		
 		exhaust();

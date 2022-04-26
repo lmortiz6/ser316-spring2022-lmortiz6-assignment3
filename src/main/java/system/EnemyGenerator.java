@@ -1,44 +1,52 @@
 package main.java.system;
 
+import java.util.Random;
+
 import main.java.object.Enemy;
 import main.java.object.Item;
 import main.java.object.Weapon;
 
 public class EnemyGenerator {
+	
+	private static Random rng;
+	
+	static {
+		rng = Game.levelrng;
+	}
 
-	public static Enemy genEnemy(String name, int x, int y) {
+	public static Enemy genEnemy(String name, int x, int y, Floor floor) {
 		switch (name.toLowerCase()) {
 		case "imp":
-			return genImp(x, y);
+			return genImp(x, y, floor);
 		case "goblin":
-			return genGoblin(x, y);
+			return genGoblin(x, y, floor);
 		case "lich":
-			return genLich(x, y);
+			return genLich(x, y, floor);
 		case "beastman":
-			return genBeastman(x, y);
+			return genBeastman(x, y, floor);
 		case "skeleton":
-			return genSkeleton(x, y);
+			return genSkeleton(x, y, floor);
 		case "mindflayer":
-			return genMindflayer(x, y);
+			return genMindflayer(x, y, floor);
 		case "werewolf":
-			return genWerewolf(x, y);
+			return genWerewolf(x, y, floor);
 		case "deepone":
-			return genDeepone(x, y);
+			return genDeepone(x, y, floor);
 		case "hero":
-			return genHero(x, y);
+			return genHero(x, y, floor);
 		case "cerberus":
-			return genCerberus(x, y);
+			return genCerberus(x, y, floor);
 		case "minotaur":
-			return genMinotaur(x, y);
+			return genMinotaur(x, y, floor);
 		default:
-			return genImp(x, y);
+			return genImp(x, y, floor);
 		}
 	}
 	
-	private static Enemy genImp(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("dagger", 2, x, y);
+	private static Enemy genImp(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("dagger", x, y, floor, 2);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -53,17 +61,22 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 8;
     	int lck = 10;
-    	Item item = null; // draw from pool
+    	
+    	Item item = null;
+    	
+    	if (rng.nextInt(4) == 0) {
+    		item = ItemPool.pull("1", x, y, floor);
+    	}
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genGoblin(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("shortsword", 0, x, y);
+	private static Enemy genGoblin(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("shortsword", x, y, floor, 0);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -78,17 +91,21 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 9;
     	int lck = 9;
-    	Item item = null; // draw from pool
+    	Item item = null;
+    	
+    	if (rng.nextInt(4) == 0) {
+    		item = ItemPool.pull("1", x, y, floor);
+    	}
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genLich(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("hammer", 0, x, y);
+	private static Enemy genLich(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("hammer", x, y, floor, 0);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -103,17 +120,21 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 10;
     	int lck = 6;
-    	Item item = null; // draw from pool
+    	Item item = null;
+    	
+    	if (rng.nextInt(6) == 0) {
+    		item = ItemPool.pull("3", x, y, floor);
+    	}
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genBeastman(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("flail", 1, x, y);
+	private static Enemy genBeastman(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("flail", x, y, floor, 1);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -128,17 +149,21 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 8;
     	int lck = 12;
-    	Item item = null; // draw from pool
+    	Item item = null;
+    	
+    	if (rng.nextInt(4) == 0) {
+    		item = ItemPool.pull("2", x, y, floor);
+    	}
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genSkeleton(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("spear", 2, x, y);
+	private static Enemy genSkeleton(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("spear", x, y, floor, 2);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -153,17 +178,21 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 12;
     	int lck = 11;
-    	Item item = null; // draw from pool
+    	Item item = null;
+    	
+    	if (rng.nextInt(4) == 0) {
+    		item = ItemPool.pull("2", x, y, floor);
+    	}
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genMindflayer(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("shortsword", 3, x, y);
+	private static Enemy genMindflayer(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("shortsword", x, y, floor, 3);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -178,17 +207,21 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 13;
     	int lck = 7;
-    	Item item = null; // draw from pool
+    	Item item = ItemPool.pull("elite", x, y, floor);
+    	
+    	if (rng.nextInt(4) == 0) {
+    		item = ItemPool.pull("2", x, y, floor);
+    	}
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genWerewolf(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("caestus", 3, x, y);
+	private static Enemy genWerewolf(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("caestus", x, y, floor, 3);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -203,17 +236,17 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 14;
     	int lck = 10;
-    	Item item = null; // draw from pool
+    	Item item = ItemPool.pull("elite", x, y, floor);
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genDeepone(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("flail", 1, x, y);
+	private static Enemy genDeepone(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("flail", x, y, floor, 1);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -228,17 +261,17 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 6;
     	int lck = 9;
-    	Item item = null; // draw from pool
+    	Item item = ItemPool.pull("elite", x, y, floor);
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genHero(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("greatsword", 3, x, y);
+	private static Enemy genHero(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("greatsword", x, y, floor, 3);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -253,17 +286,17 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 11;
     	int lck = 12;
-    	Item item = null; // draw from pool
+    	Item item = ItemPool.pull("elite", x, y, floor);
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genCerberus(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("dagger", 2, x, y);
+	private static Enemy genCerberus(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("dagger", x, y, floor, 2);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -278,17 +311,17 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 12;
     	int lck = 10;
-    	Item item = null; // draw from pool
+    	Item item = ItemPool.pull("elite", x, y, floor);
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	
     	return newEnemy;
 	}
 	
-	private static Enemy genMinotaur(int x, int y) {
-		Weapon weapon = WeaponGenerator.genWeapon("hammer", 3, x, y);
+	private static Enemy genMinotaur(int x, int y, Floor floor) {
+		Weapon weapon = WeaponGenerator.genWeapon("hammer", x, y, floor, 3);
 		BasicAi ai = new BasicAi();
-    	Enemy newEnemy = new Enemy(x, y, Game.currentFloor, ai);
+    	Enemy newEnemy = new Enemy(x, y, floor, ai);
     	ai.setOwner(newEnemy);
     	newEnemy.equipWeapon(weapon);
     	
@@ -303,7 +336,7 @@ public class EnemyGenerator {
     	int end = 10;
     	int str = 12;
     	int lck = 9;
-    	Item item = null; // draw from pool
+    	Item item = ItemPool.pull("elite", x, y, floor);
     	
     	newEnemy.setUp(name, ascii, hp, mp, en, xp, vig, mnd, end, str, lck, item);
     	

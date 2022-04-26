@@ -4,33 +4,33 @@ import main.java.object.Skill;
 import main.java.effect.*;
 
 public class SkillGenerator {
-	public static Skill genSkill(String name, int x, int y) {
+	public static Skill genSkill(String name, int x, int y, Floor floor) {
 		switch (name.toLowerCase()) {
 		case "spark":
-			return genSpark(x, y);
+			return genSpark(x, y, floor);
 		case "fireball":
-			return genFireball(x, y);
+			return genFireball(x, y, floor);
 		case "poison":
-			return genPoison(x, y);
+			return genPoison(x, y, floor);
 		case "lightning":
-			return genLightning(x, y);
+			return genLightning(x, y, floor);
 		case "boulder":
-			return genBoulder(x, y);
+			return genBoulder(x, y, floor);
 		case "blood":
-			return genBlood(x, y);
+			return genBlood(x, y, floor);
 		case "teleport":
-			return genTeleport(x, y);
+			return genTeleport(x, y, floor);
 		case "heal":
-			return genHeal(x, y);
+			return genHeal(x, y, floor);
 		case "ritual":
-			return genRitual(x, y);
+			return genRitual(x, y, floor);
 		default:
-			return genSpark(x, y);
+			return genSpark(x, y, floor);
 		}
 	}
 	
-	private static Skill genSpark(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genSpark(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Spark";
 		int hpCost = 0;
 		int mpCost = 7;
@@ -47,8 +47,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genFireball(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genFireball(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Fireball";
 		int hpCost = 0;
 		int mpCost = 15;
@@ -65,8 +65,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genPoison(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genPoison(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Poison Cloud";
 		int hpCost = 0;
 		int mpCost = 10;
@@ -83,8 +83,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genLightning(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genLightning(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Lightning Bolt";
 		int hpCost = 12;
 		int mpCost = 15;
@@ -101,8 +101,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genBoulder(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genBoulder(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Manifest Boulder";
 		int hpCost = 0;
 		int mpCost = 25;
@@ -119,8 +119,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genBlood(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genBlood(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Offer Blood";
 		int hpCost = 18;
 		int mpCost = 0;
@@ -136,8 +136,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genTeleport(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genTeleport(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Teleport";
 		int hpCost = 0;
 		int mpCost = 10;
@@ -153,8 +153,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genHeal(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genHeal(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Bountiful Prayer";
 		int hpCost = 0;
 		int mpCost = 20;
@@ -170,8 +170,8 @@ public class SkillGenerator {
 		return newSkill;
 	}
 	
-	private static Skill genRitual(int x, int y) {
-		Skill newSkill = new Skill(x, y, Game.currentFloor);
+	private static Skill genRitual(int x, int y, Floor floor) {
+		Skill newSkill = new Skill(x, y, floor);
 		String name = "Profane Ritual";
 		int hpCost = 20;
 		int mpCost = 0;

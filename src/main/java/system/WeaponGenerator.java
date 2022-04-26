@@ -3,32 +3,32 @@ package main.java.system;
 import main.java.object.Weapon;
 
 public class WeaponGenerator {
-	public static Weapon genWeapon(String name, int x, int y, int modifier) {
+	public static Weapon genWeapon(String name, int x, int y, Floor floor, int modifier) {
 		switch (name.toLowerCase()) {
 		case "dagger":
-			return genDagger(modifier, x, y);
+			return genDagger(modifier, x, y, floor);
 		case "shortsword":
-			return genShortSword(modifier, x, y);
+			return genShortSword(modifier, x, y, floor);
 		case "longsword":
-			return genLongSword(modifier, x, y);
+			return genLongSword(modifier, x, y, floor);
 		case "broadsword":
-			return genBroadSword(modifier, x, y);
+			return genBroadSword(modifier, x, y, floor);
 		case "spear":
-			return genSpear(modifier, x, y);
+			return genSpear(modifier, x, y, floor);
 		case "flail":
-			return genFlail(modifier, x, y);
+			return genFlail(modifier, x, y, floor);
 		case "hammer":
-			return genHammer(modifier, x, y);
+			return genHammer(modifier, x, y, floor);
 		case "caestus":
-			return genCaestus(modifier, x, y);
+			return genCaestus(modifier, x, y, floor);
 		case "greatsword":
-			return genGreatSword(modifier, x, y);
+			return genGreatSword(modifier, x, y, floor);
 		default:
-			return genDagger(modifier, x, y);
+			return genDagger(modifier, x, y, floor);
 		}
 	}
 	
-	private static Weapon genDagger(int modifier, int x, int y) {
+	private static Weapon genDagger(int modifier, int x, int y, Floor floor) {
 		String name = "Dagger";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -65,14 +65,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genShortSword(int modifier, int x, int y) {
+	private static Weapon genShortSword(int modifier, int x, int y, Floor floor) {
 		String name = "Short Sword";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -110,14 +110,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genLongSword(int modifier, int x, int y) {
+	private static Weapon genLongSword(int modifier, int x, int y, Floor floor) {
 		String name = "Long Sword";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -155,14 +155,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genBroadSword(int modifier, int x, int y) {
+	private static Weapon genBroadSword(int modifier, int x, int y, Floor floor) {
 		String name = "Broad Sword";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -200,14 +200,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genSpear(int modifier, int x, int y) {
+	private static Weapon genSpear(int modifier, int x, int y, Floor floor) {
 		String name = "Spear";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -245,14 +245,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genFlail(int modifier, int x, int y) {
+	private static Weapon genFlail(int modifier, int x, int y, Floor floor) {
 		String name = "Flail";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -290,14 +290,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genHammer(int modifier, int x, int y) {
+	private static Weapon genHammer(int modifier, int x, int y, Floor floor) {
 		String name = "Hammer";
 		if (modifier == 3 || modifier == 2) {
 			name = "Ancient " + name;
@@ -323,14 +323,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genCaestus(int modifier, int x, int y) {
+	private static Weapon genCaestus(int modifier, int x, int y, Floor floor) {
 		String name = "Caestus";
 		if (modifier == 3) {
 			name = "Ancient " + name;
@@ -356,14 +356,14 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		
 		return newWeapon;
 	}
 	
-	private static Weapon genGreatSword(int modifier, int x, int y) {
+	private static Weapon genGreatSword(int modifier, int x, int y, Floor floor) {
 		String name = "Great Sword";
 		if (modifier == 1) {
 			name = "Poison " + name;
@@ -401,7 +401,7 @@ public class WeaponGenerator {
 			desc += " Glows with ancient power";
 		}
 		
-		Weapon newWeapon = new Weapon(x, y, Game.currentFloor);
+		Weapon newWeapon = new Weapon(x, y, floor);
 		newWeapon.setUp(name, damage, poison, bleed, energyCost, hb);
 		newWeapon.setDesc(desc);
 		

@@ -325,6 +325,10 @@ public class Entity extends GameObject{
 		}
 	}
 	
+	public void setPosition(int x, int y) {
+		position.setLocation(x, y);
+	}
+	
 	public void attack(String direction) {
 		if (weapon == null) {
 			return;
@@ -387,8 +391,6 @@ public class Entity extends GameObject{
 		}
 	}
 	public void destroy() {
-		System.out.println(name + " destroyed!");
-		floor.removeEntity(this);
 		if (attacker != null) {
 			attacker.killedBy();
 		}

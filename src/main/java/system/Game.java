@@ -15,5 +15,9 @@ public class Game {
 		dice = new Random(seed);
 		levelrng = new Random(seed);
 	}
+	
+	public static void nextFloor() {
+		
+	}
 
 }

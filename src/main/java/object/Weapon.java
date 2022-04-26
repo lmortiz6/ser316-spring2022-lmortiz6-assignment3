@@ -16,6 +16,7 @@ public class Weapon extends UseItem{
 
 	public Weapon(int x, int y, Floor floor) {
 		super(x, y, floor);
+		ascii = '†';
 	}
 	
 	public void setUp(String name, int damage, int poison, int bleed, int energyCost, Hitbox hb) {

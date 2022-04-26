@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import main.java.object.Empty;
+import main.java.object.Stairs;
 import main.java.object.Wall;
 
 public class InteriorGenerator {
@@ -16,7 +17,7 @@ public class InteriorGenerator {
 	
 	public InteriorGenerator(long sd) {
 		seed = sd;
-		rng = new Random(seed);
+		rng = Game.levelrng;
 	}
 	
 	public void generateInterior(Floor floor, int floorNum) {
@@ -29,8 +30,8 @@ public class InteriorGenerator {
 			case TREASURE:
 				generateTreasure(floor, room, floorNum);
 				break;
-			case SHOP:
-				generateShop(floor, room, floorNum);
+			case SHOP: // shop not yet implemented
+				generateTreasure(floor, room, floorNum);
 				break;
 			case END:
 				generateEnd(floor, room, floorNum);
@@ -52,10 +53,13 @@ public class InteriorGenerator {
 	private void generateStart(Floor floor, Room room) {
 		int roomX = room.getPositionAbs().x;
 		int roomY = room.getPositionAbs().y;
-		int targetX = 0;
-		int targetY = 0;
+		int targetX = roomX + (Room.ROOM_WIDTH / 2);
+		int targetY = roomY + (Room.ROOM_HEIGHT / 2);
 		
-		//TODO spawn player
+		// spawn player
+		floor.addEntity(Game.player);
+		Game.player.setFloor(floor);
+		Game.player.setPosition(targetX, targetY);
 	}
 	
 	private void generateTreasure(Floor floor, Room room, int floorNum) {
@@ -73,9 +77,16 @@ public class InteriorGenerator {
 			targetY = Room.ROOM_HEIGHT - 1;
 		}
 		
-		//TODO spawn treasure
+		// spawn treasure
+		
+		targetX = roomX + (Room.ROOM_WIDTH / 2);
+		targetY = roomY + (Room.ROOM_HEIGHT / 2);
+		
+		floor.addItem(ItemPool.pull("treasure", targetX, targetY, floor));
+		
 	}
 	
+	/*// unused
 	private void generateShop(Floor floor, Room room, int floorNum) {
 		int roomX = room.getPositionAbs().x;
 		int roomY = room.getPositionAbs().y;
@@ -91,7 +102,7 @@ public class InteriorGenerator {
 		floor.addFurniture(new Wall(roomX+targetX, roomY+targetY, floor));
 		
 		//TODO spawn shopkeeper
-	}
+	}*/
 	
 	private void generateEnd(Floor floor, Room room, int floorNum) {
 		int roomX = room.getPositionAbs().x;
@@ -99,7 +110,20 @@ public class InteriorGenerator {
 		int targetX = 0;
 		int targetY = 0;
 		
-		//TODO spawn boss/stairs
+		// spawn boss
+		targetX = roomX + (Room.ROOM_WIDTH / 2) + 1;
+		targetY = roomY + (Room.ROOM_HEIGHT / 2);
+		
+		if ((Game.currentFloorNum + 1) % 2 == 0) {
+			floor.addEntity(EnemyPool.pull("elite", targetX, targetY, floor));
+		}
+		else if ((Game.currentFloorNum + 1) % 5 == 0) {
+			floor.addEntity(EnemyPool.pull("boss", targetX, targetY, floor));
+		}
+		
+		// spawn stairs
+		targetX -= 2;
+		floor.addItem(new Stairs(targetX, targetY, floor));
 	}
 	
 	private void generateNormal(Floor floor, Room room, int floorNum) {
@@ -109,7 +133,37 @@ public class InteriorGenerator {
 		int targetX = 0;
 		int targetY = 0;
 		
-		//TODO spawn enemies/items
+		// spawn enemies
+		
+		// 1-8 enemies, depending on rng and progression
+		int count = 1 + rng.nextInt(Math.min(8, Math.max(Game.currentFloorNum / 2, 3)));
+		int loops;
+		String pool = "" + Math.min(5, Game.currentFloorNum + 1);
+		
+		for (int i = 0; i < count; i++) {
+			loops = 0;
+			while (!(floor.getObject(targetX, targetY) instanceof main.java.object.Empty) && loops < 30) {
+				targetX = roomX + 1 + Game.dice.nextInt(Room.ROOM_WIDTH - 1);
+				targetY = roomY + 1 + Game.dice.nextInt(Room.ROOM_HEIGHT - 1);
+				loops++;
+			}
+			if (loops < 30) {
+				floor.addEntity(EnemyPool.pull(pool, targetX, targetY, floor));
+			}
+		}
+		
+		// spawn item
+		if (rng.nextInt(6) == 0) {
+			loops = 0;
+			while (!(floor.getObject(targetX, targetY) instanceof main.java.object.Empty) && loops < 30) {
+				targetX = roomX + 1 + Game.dice.nextInt(Room.ROOM_WIDTH - 1);
+				targetY = roomY + 1 + Game.dice.nextInt(Room.ROOM_HEIGHT - 1);
+				loops++;
+			}
+			if (loops < 30) {
+				floor.addItem(ItemPool.pull(pool, targetX, targetY, floor));
+			}
+		}
 	}
 	
 	private void addWalls(Floor floor, Room room) {
