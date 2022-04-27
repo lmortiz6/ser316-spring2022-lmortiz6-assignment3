@@ -42,8 +42,6 @@ public class FloorGenerator {
 		// place extra rooms
 		RoomPlacer.addExtra(floor);
 		
-		printLayout(layout);
-		
 		return layout;
 	}
 	
