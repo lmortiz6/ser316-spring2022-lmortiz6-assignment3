@@ -1,5 +1,8 @@
 # ser316-spring2022-lmortiz6-assignment3
 
+# Screen cast link
+https://youtu.be/csZI-vd_saM
+
 # Design Patterns
 
 Factory :
