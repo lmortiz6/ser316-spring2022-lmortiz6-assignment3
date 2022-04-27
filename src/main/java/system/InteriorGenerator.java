@@ -1,3 +1,9 @@
+/**
+ * 
+ * This class is a singleton.
+ * 
+ */
+
 package main.java.system;
 
 import java.awt.Point;
@@ -10,10 +16,19 @@ import main.java.object.Wall;
 
 public class InteriorGenerator {
 	
+	private static InteriorGenerator instance = null;
+	
 	Random rng;
 	
-	public InteriorGenerator() {
+	private InteriorGenerator() {
 		rng = Game.levelrng;
+	}
+	
+	public static InteriorGenerator getInstance() {
+		if (instance == null) {
+			instance = new InteriorGenerator();
+		}
+		return instance;
 	}
 	
 	public void generateInterior(Floor floor, int floorNum) {
@@ -140,8 +155,8 @@ public class InteriorGenerator {
 		for (int i = 0; i < count; i++) {
 			loops = 0;
 			while (!(floor.getObject(targetX, targetY) == null) && loops < 30) {
-				targetX = roomX + 1 + Game.dice.nextInt(Room.ROOM_WIDTH - 1);
-				targetY = roomY + 1 + Game.dice.nextInt(Room.ROOM_HEIGHT - 1);
+				targetX = roomX + 1 + rng.nextInt(Room.ROOM_WIDTH - 1);
+				targetY = roomY + 1 + rng.nextInt(Room.ROOM_HEIGHT - 1);
 				loops++;
 			}
 			if (loops < 30) {
@@ -153,8 +168,8 @@ public class InteriorGenerator {
 		if (rng.nextInt(6) == 0) {
 			loops = 0;
 			while (!(floor.getObject(targetX, targetY) instanceof main.java.object.Empty) && loops < 30) {
-				targetX = roomX + 1 + Game.dice.nextInt(Room.ROOM_WIDTH - 1);
-				targetY = roomY + 1 + Game.dice.nextInt(Room.ROOM_HEIGHT - 1);
+				targetX = roomX + 1 + rng.nextInt(Room.ROOM_WIDTH - 1);
+				targetY = roomY + 1 + rng.nextInt(Room.ROOM_HEIGHT - 1);
 				loops++;
 			}
 			if (loops < 30) {

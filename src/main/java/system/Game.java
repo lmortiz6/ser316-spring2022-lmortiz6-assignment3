@@ -6,6 +6,7 @@ import java.util.Random;
 import main.java.object.Enemy;
 import main.java.object.GameObject;
 import main.java.object.Player;
+import main.java.object.Relic;
 
 public class Game {
 	public static Random dice;
@@ -22,12 +23,18 @@ public class Game {
 		floors = new ArrayList<Floor>();
 		currentFloorNum = 0;
 		
-		player = PlayerGenerator.genPlayer(name, character);
+		if (character == -1) {
+			player = PlayerGenerator.genPlayer(name, 0);
+		}
+		else {
+			player = PlayerGenerator.genPlayer(name, character);
+		}
 		
 		Floor floor = FloorGenerator.generateFloor(currentFloorNum);
 		floors.add(floor);
 		currentFloor = floor;
 		
+		if (character != -1)
 		playerTurn();
 	}
 	
@@ -53,6 +60,13 @@ public class Game {
 		Floor floor = FloorGenerator.generateFloor(currentFloorNum);
 		floors.add(floor);
 		currentFloor = floor;
+		
+		// curse applied to player every 5 floors advanced
+		if (currentFloorNum % 5 == 0) {
+			Relic curse = (Relic)ItemPool.pull("curse", 0, 0, currentFloor);
+			player.addItem(curse);
+			curse.pickUp(player);
+		}
 		playerTurn();
 	}
 	

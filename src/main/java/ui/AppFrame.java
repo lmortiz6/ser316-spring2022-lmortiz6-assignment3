@@ -15,11 +15,14 @@ public class AppFrame extends JFrame{
 	public AsciiPanel asciiPane;
 	public ControlPanel controlPane;
 	LogPanel logPane;
+	public boolean consoleLog;
 	
 	private static String name;
 	private static int character;
 	
-	public AppFrame() {
+	public AppFrame(boolean consoleLog) {
+		
+		this.consoleLog = consoleLog;
 		
 		openStartMenu();
     	
@@ -62,6 +65,9 @@ public class AppFrame extends JFrame{
 	}
 	
 	public void log(String string) {
+		if (consoleLog) {
+			System.out.println(string);
+		}
 		logPane.log(string);
 	}
 	

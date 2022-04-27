@@ -1,3 +1,10 @@
+/**
+ * 
+ * The pool classes use the strategy pattern to make specific calls to Generators at runtime.
+ * Method calls are encapsulated into anonymous classes, which are stored in an arraylist so that they can be pulled randomly.
+ * 
+ */
+
 package main.java.system;
 
 import java.util.ArrayList;
@@ -11,9 +18,7 @@ public class ItemPool {
 	private static HashMap<String, ArrayList<Command>> pools;
 	private static ArrayList<Command> floor1_2;
 	private static ArrayList<Command> floor3_5;
-	//private static ArrayList<Command> shop;
 	private static ArrayList<Command> treasure;
-	//private static ArrayList<Command> enemy;
 	private static ArrayList<Command> elite;
 	private static ArrayList<Command> curse;
 	private static Random rng;

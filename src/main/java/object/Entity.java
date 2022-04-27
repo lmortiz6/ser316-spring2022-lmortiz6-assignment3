@@ -69,6 +69,8 @@ public class Entity extends GameObject{
 		
 		effects = new ArrayList<Effect>();
 		fxToRemove = new ArrayList<Effect>();
+		
+		// effects to apply stat boosts
 		effects.add(new VigorBoost(this));
 		effects.add(new MindBoost(this));
 		effects.add(new EnduranceBoost(this));
@@ -124,7 +126,7 @@ public class Entity extends GameObject{
 		hpBonus = 0;
 		mpBonus = 0;
 		enBonus = 0;
-		damageBonusStart = 1;
+		damageBonus = 1;
 		savingThrowBonus = 0;
 		defenseBonus = 1;
 		magickBonus = 1;
@@ -276,6 +278,7 @@ public class Entity extends GameObject{
 	public void equipWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
+	
 	public void addItem(Item item) {
 		if (item instanceof UseItem) {
 			useItems.add((UseItem)item);
@@ -428,6 +431,7 @@ public class Entity extends GameObject{
 		}
 	}
 	
+	// Attacks have chance to miss
 	public boolean savingThrow(int bonus) {
 		if (main.java.system.Game.dice.nextInt(20) + bonus + savingThrowBonus > main.java.system.Game.dice.nextInt(20)) {
 			main.java.ui.App.getFrame().log(name + " dodged!");

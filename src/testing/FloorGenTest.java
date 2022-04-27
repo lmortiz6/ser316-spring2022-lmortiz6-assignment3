@@ -16,8 +16,9 @@ import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.util.Date;
+import java.util.Random;
 
-public class Test1 {
+public class FloorGenTest {
 
 	static long seed;
 	
@@ -32,11 +33,14 @@ public class Test1 {
     }
 
     @Test
-    public void SampleTest() {
+    public void FloorTest() {
     	
-    	//Game.start(seed, "");
+    	Game.levelrng = new Random(seed);
+    	Game.player = new Player(0, 0, null);
     	
-        assertEquals(1, 1);
+    	Floor floor = FloorGenerator.generateFloor(0);
+    	
+        assertTrue(floor instanceof Floor);
     }
     
 }

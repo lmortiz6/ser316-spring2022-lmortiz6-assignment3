@@ -1,3 +1,10 @@
+/**
+ * 
+ * The pool classes use the strategy pattern to make specific calls to Generators at runtime.
+ * Method calls are encapsulated into anonymous classes, which are stored in an arraylist so that they can be pulled randomly.
+ * 
+ */
+
 package main.java.system;
 
 import java.util.ArrayList;
@@ -19,6 +26,7 @@ public class EnemyPool {
 		rng = Game.levelrng;
 		pools = new HashMap<String, ArrayList<Command>>();
 		
+		// Floor 1-2 have smaller, weaker enemy pool
 		floor1_2 = new ArrayList<Command>();
 		floor1_2.add(new Command() { @Override
 			public Enemy get(int x, int y, Floor floor) { return EnemyGenerator.genEnemy("imp", x, y, floor);}});

@@ -5,8 +5,8 @@ import java.awt.Frame;
 public class App {
 	static AppFrame frame = null;
 	
-	public App() {
-		frame = new AppFrame();
+	public App(boolean consoleLog) {
+		frame = new AppFrame(consoleLog);
 		frame.pack();
 		frame.setExtendedState(Frame.NORMAL);
 		frame.setVisible(true);

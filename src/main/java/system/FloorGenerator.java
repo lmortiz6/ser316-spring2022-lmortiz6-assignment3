@@ -14,7 +14,7 @@ public class FloorGenerator {
 	
 	static {
 		rng = Game.levelrng;
-		igen = new InteriorGenerator();
+		igen = InteriorGenerator.getInstance();
 	}
 	
 	public static Floor generateFloor(int floor) {

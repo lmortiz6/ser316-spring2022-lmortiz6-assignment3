@@ -34,11 +34,14 @@ public class Enemy extends Entity{
 	public void destroy() {
 		super.destroy();
 		floor.removeEntity(this);
+		
+		// enemies will drop their object, if they were generated with one
 		if (dropItem != null) {
 			dropItem.setPosition(position.x, position.y);
 			dropItem.setFloor(floor);
 			floor.addItem(dropItem);
 		}
+		// enemies give xp
 		if (attacker != null) {
 			attacker.giveXP(givexp);
 		}

@@ -1,3 +1,10 @@
+/**
+ * 
+ * Builds a relic object based on one of several configurations.
+ * Example of a factory pattern.
+ * 
+ */
+
 package main.java.system;
 
 import main.java.object.Relic;
