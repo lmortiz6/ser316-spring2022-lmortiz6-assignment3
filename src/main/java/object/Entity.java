@@ -54,6 +54,8 @@ public class Entity extends GameObject{
 	protected Item dropItem;
 	protected Entity attacker;
 	protected boolean enemyKilled;
+	
+	protected boolean start = true;
 
 	public Entity(int x, int y, Floor floor) {
 		super(x, y, floor);
@@ -141,6 +143,13 @@ public class Entity extends GameObject{
 		energize();
 		damageBonusStart = damageBonus;
 		enemyKilled = false;
+		
+		if (start) {
+			hp = hpMax;
+			mp = mpMax;
+			en = enMax;
+			start = false;
+		}
 	}
 	
 	public void endTurn() {
@@ -191,17 +200,39 @@ public class Entity extends GameObject{
 	public int getVigor() {
 		return vig;
 	}
+	public void levelVigor(int amount) {
+		vig += amount;
+	}
 	public int getMind() {
 		return mnd;
+	}
+	public void levelMind(int amount) {
+		mnd += amount;
 	}
 	public int getEndurance() {
 		return end;
 	}
+	public void levelEndurance(int amount) {
+		end += amount;
+	}
 	public int getStrength() {
 		return str;
 	}
+	public void levelStrength(int amount) {
+		str += amount;
+	}
 	public int getLuck() {
 		return lck;
+	}
+	public void levelLuck(int amount) {
+		lck += amount;
+	}
+	
+	public int getXP() {
+		return xp;
+	}
+	public int getLevelXP() {
+		return levelxp;
 	}
 	
 	public String getName() {
@@ -210,6 +241,18 @@ public class Entity extends GameObject{
 	
 	public Weapon getWeapon() {
 		return weapon;
+	}
+	
+	public ArrayList<Skill> getSkills(){
+		return skills;
+	}
+	
+	public ArrayList<UseItem> getUseItems() {
+		return useItems;
+	}
+	
+	public ArrayList<Relic> getRelics() {
+		return relics;
 	}
 	
 	public int getDamage() {
@@ -333,6 +376,9 @@ public class Entity extends GameObject{
 		}
 		GameObject obj = floor.getObject(x, y);
 		if (obj instanceof Wall || obj instanceof Entity) {
+			if (this instanceof Player) {
+				main.java.ui.App.getFrame().log("Something is in the way!");
+			}
 			return;
 		}
 		else {
@@ -352,7 +398,7 @@ public class Entity extends GameObject{
 		if (en < weapon.getEnergyCost()) {
 			return;
 		}
-		System.out.println(name + " attacks!");
+		main.java.ui.App.getFrame().log(name + " attacks!");
 		ArrayList<Point> positions = weapon.getPositions(position, direction);
 		if (positions.isEmpty()) {
 			return;
@@ -384,7 +430,7 @@ public class Entity extends GameObject{
 	
 	public boolean savingThrow(int bonus) {
 		if (main.java.system.Game.dice.nextInt(20) + bonus + savingThrowBonus > main.java.system.Game.dice.nextInt(20)) {
-			System.out.println("Dodged!");
+			main.java.ui.App.getFrame().log(name + " dodged!");
 			return true;
 		}
 		return false;
@@ -393,6 +439,7 @@ public class Entity extends GameObject{
 	////// RECIEVED //////
 	
 	public void damage(int amount) {
+		main.java.ui.App.getFrame().log(name + " damaged for " + amount + " HP.");
 		hp -= amount;
 		for (Iterator<Effect> it = effects.iterator(); it.hasNext(); ) {
 			Effect effect = it.next();
@@ -480,8 +527,10 @@ public class Entity extends GameObject{
 	}
 	
 	public void giveXP(int amount) {
+		main.java.ui.App.getFrame().log("Received " + amount + " xp.");
 		xp += amount;
 		if (xp >= levelxp) {
+			main.java.ui.App.getFrame().log("New skill point available. Try leveling up!");
 			xp -= levelxp;
 			sp++;
 			levelxp *= 1.5;
@@ -513,6 +562,20 @@ public class Entity extends GameObject{
 				return room;
 		}
 		return null;
+	}
+	
+	@Override
+	public void setFloor(Floor floor) {
+		super.setFloor(floor);
+		for (Skill skill : skills) {
+			skill.setFloor(floor);
+		}
+		for (UseItem item : useItems) {
+			item.setFloor(floor);
+		}
+		for (Relic relic : relics) {
+			relic.setFloor(floor);
+		}
 	}
 	
 	public String toString() {

@@ -39,6 +39,9 @@ public class Enemy extends Entity{
 			dropItem.setFloor(floor);
 			floor.addItem(dropItem);
 		}
+		if (attacker != null) {
+			attacker.giveXP(givexp);
+		}
 	}
 
 }

@@ -21,7 +21,8 @@ public class Bleed extends Effect{
 		}
 		super.proc();
 		if (!bandage) {
-			owner.damageNoEffects((int)(owner.getMaxHP() * 0.25));
+			main.java.ui.App.getFrame().log(owner.getName() + " bled for " + (int)(owner.getMaxHP() * 0.25) + " HP.");
+			owner.damageNoEffects((int)(owner.getMaxHP() * 0.2));
 		}
 		exhaust();
 	}

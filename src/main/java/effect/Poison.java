@@ -14,6 +14,7 @@ public class Poison extends Effect{
 	@Override
 	public void proc() {
 		super.proc();
+		main.java.ui.App.getFrame().log(owner.getName() + " poisoned for " + 5 + " HP.");
 		owner.damageNoEffects(5);
 		exhaust();
 	}

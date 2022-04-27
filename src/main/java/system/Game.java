@@ -16,26 +16,16 @@ public class Game {
 	public static boolean playerTurn;
 	private static ArrayList<Floor> floors;
 	
-	public static void start(long seed, String character) {
+	public static void start(long seed, int character, String name) {
 		dice = new Random(seed);
 		levelrng = new Random(seed);
 		floors = new ArrayList<Floor>();
 		currentFloorNum = 0;
 		
-		player = new Player(0, 0, null);
-		//player = PlayerGenerator.genPlayer(character);
-		Floor floor = FloorGenerator.generateFloor(0);
-    	
-    	main.java.object.Weapon weapon1 = new main.java.object.Weapon(0, 0, floor);
-    	weapon1.setUp("Super Hammer", 300, 0, 0, 2, new Hitbox(1, 1));
-    	
-    	player.setUp("Tom", player.getAscii(), 100, 100, 4, 10, 10, 10, 10, 10, 10, null);
-    	player.equipWeapon(weapon1);
-    	
+		player = PlayerGenerator.genPlayer(name, character);
+		
+		Floor floor = FloorGenerator.generateFloor(currentFloorNum);
 		floors.add(floor);
-		
-		floors.get(currentFloorNum).printFloorplan();
-		
 		currentFloor = floor;
 		
 		playerTurn();
@@ -58,11 +48,16 @@ public class Game {
 	}
 	
 	public static void nextFloor() {
-		
+		currentFloorNum += 1;
+		main.java.ui.App.getFrame().log("Made it to floor " + (currentFloorNum + 1));
+		Floor floor = FloorGenerator.generateFloor(currentFloorNum);
+		floors.add(floor);
+		currentFloor = floor;
+		playerTurn();
 	}
 	
 	public static void gameOver() {
-		
+		main.java.ui.App.getFrame().gameOver();
 	}
 
 }

@@ -65,12 +65,15 @@ public class Skill extends Item{
 		if (owner.getHP() < hpCost || owner.getMP() < mpCost || owner.getEnergy() < enCost) {
 			return;
 		}
+		main.java.ui.App.getFrame().log(owner.name + " used " + name + ".");
 		if (hb != null) {
 			attack(direction);
 		}
 		else if (effect != null) {
 			giveEffect();
 		}
+		main.java.ui.App.getFrame().asciiPane.repaint();
+		main.java.ui.App.getFrame().controlPane.refresh();
 	}
 	
 	private void attack(String direction) {

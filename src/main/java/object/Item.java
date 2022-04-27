@@ -14,6 +14,7 @@ public class Item extends GameObject{
 	}
 	
 	public void pickUp(Entity entity) {
+		main.java.ui.App.getFrame().log("Picked up " + name);
 		this.owner = entity;
 		entity.addItem(this);
 		floor.removeItem(this);
@@ -25,6 +26,9 @@ public class Item extends GameObject{
 	
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public String getDesc() {
+		return name + ": " + desc;
 	}
 	
 	public String getName() {

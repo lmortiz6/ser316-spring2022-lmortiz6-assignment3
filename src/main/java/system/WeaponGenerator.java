@@ -49,7 +49,7 @@ public class WeaponGenerator {
 		}
 		int bleed = 0;
 		if (modifier == 2) {
-			bleed = 18;
+			bleed = 14;
 		}
 		int energyCost = 1;
 		Hitbox hb = new Hitbox(1, 1);

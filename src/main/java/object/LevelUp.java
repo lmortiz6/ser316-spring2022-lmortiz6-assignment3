@@ -21,8 +21,10 @@ public class LevelUp extends Skill{
 		if (!(owner.getSP() > 0)) {
 			return;
 		}
-		// TODO open level menu
+		main.java.ui.App.getFrame().levelUp();
 		owner.spGain(-1);
+		main.java.ui.App.getFrame().asciiPane.repaint();
+		main.java.ui.App.getFrame().controlPane.refresh();
 	}
 
 }

@@ -26,11 +26,22 @@ public class UseItem extends Item{
 			effect.proc();
 		}
 		owner.removeEffects();
+		owner.removeItem(this);
+		main.java.ui.App.getFrame().asciiPane.repaint();
+		main.java.ui.App.getFrame().controlPane.refresh();
 	}
 	
 	@Override
 	public void pickUp(Entity entity) {
 		super.pickUp(entity);
+		if (effect != null) {
+			effect.setOwner(entity);
+		}
+	}
+	
+	@Override
+	public void setOwner(Entity entity) {
+		super.setOwner(entity);
 		if (effect != null) {
 			effect.setOwner(entity);
 		}

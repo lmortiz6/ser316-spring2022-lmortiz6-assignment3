@@ -34,7 +34,7 @@ public class Test1 {
     @Test
     public void SampleTest() {
     	
-    	Game.start(seed, "");
+    	//Game.start(seed, "");
     	
         assertEquals(1, 1);
     }
